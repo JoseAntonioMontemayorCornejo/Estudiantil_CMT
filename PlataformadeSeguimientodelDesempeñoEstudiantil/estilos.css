@@ -1,0 +1,216 @@
+/* Reset general para todos los elementos:
+   elimina márgenes y rellenos por defecto, 
+   usa el modelo de caja con border-box y aplica fuente Montserrat */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Estilo general del body: fondo oscuro y texto blanco */
+body {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+/* Encabezado con fondo degradado y disposición horizontal de contenido */
+header {
+    background: linear-gradient(to right, #d94228, #3f3c3e);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo del texto del logo en el header */
+.logo {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/* Estilo de los enlaces dentro del nav */
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+/* Ícono del menú para pantallas pequeñas (inicialmente oculto) */
+.menu-icon {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Contenedor principal del contenido: layout en dos columnas con espacio entre elementos */
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    flex-wrap: wrap;
+}
+
+/* Lado izquierdo del contenido principal (por ejemplo, texto y botones) */
+.left {
+    max-width: 50%;
+}
+
+/* Título dentro del lado izquierdo */
+.left h1 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+/* Botones estilizados (borde blanco, sin fondo) */
+.left button {
+    background: none;
+    border: 2px solid white;
+    padding: 10px 30px;
+    margin: 10px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 3px;
+}
+
+/* Imagen del logo (por ejemplo, una imagen decorativa en el layout) */
+.logo-img {
+    width: 300px;
+}
+
+/* Pie de página con línea superior y disposición de ítems centrada */
+footer {
+    border-top: 1px solid #aaa;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/* Estilo individual de cada elemento del footer */
+.footer-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+/* Tamaño de imagen dentro de cada item del footer */
+.footer-item img {
+    width: 30px;
+}
+
+/* --- Repetición del reset general y estilos para página de login --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Mismo fondo oscuro y texto blanco que antes */
+body {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+/* Estilo del logo (posiblemente usado también en otra página como login) */
+.logo {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/* Estilo de navegación en otra sección/página */
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+/* Ícono de menú para responsive */
+.menu-icon {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Contenedor del login (formulario + imagen del lado) */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+/* Contenedor del formulario con fondo oscuro más claro y borde redondeado */
+.form-container {
+    background-color: #121212;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Título centrado en el formulario */
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estructura vertical del formulario */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Margen para las etiquetas del formulario */
+form label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+/* Estilo de los inputs del formulario */
+form input {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3d3d3d;
+    color: white;
+}
+
+/* Enlace de "olvidaste tu contraseña" */
+.forgot {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #ccc;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+/* Botón de envío del formulario */
+form button {
+    background-color: #757575;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Imagen decorativa de león al lado del formulario */
+.lion-image img {
+    text-align: left;
+    
+}
