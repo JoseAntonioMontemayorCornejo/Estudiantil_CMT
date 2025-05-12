@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificaciones del Estudiante - CMT</title>
+    <link rel="stylesheet" href="calificacionesDocente.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">CMT</a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="semester-grades.html">Calificaciones Semestrales</a></li>
+                <li><a href="InicioSesionAlumno.html">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="grades-section">
+        <div class="grades-header">
+            <h1 class="grades-title">Calificaciones</h1>
+        </div>
+        
+        <div class="filters">
+            <div class="select-container">
+                <label for="semester-select" class="select-label">Semestre:</label>
+                <select id="semester-select" class="select-input">
+                    <option value="">Seleccionar semestre</option>
+                    <option value="1" selected>Semestre 2023-1 (Ene-Jun)</option>
+                    <option value="2">Semestre 2023-2 (Ago-Dic)</option>
+                </select>
+            </div>
+            
+            <div class="select-container">
+                <label for="course-select" class="select-label">Curso:</label>
+                <select id="course-select" class="select-input">
+                    <option value="">Seleccionar curso</option>
+                    <option value="1" selected>Lenguajes de interfaz 6C</option>
+                    <option value="2">Programación de base de datos</option>
+                    <option value="3">Graficación</option>
+                    <option value="4">Lenguajes automatas I</option>
+                    <option value="5">Taller de investigación</option>
+                </select>
+            </div>
+        </div>
+        
+        <table class="grades-table">
+            <thead>
+                <tr>
+                    <th>Unidad</th>
+                    <th>Calificación</th>
+                    <th>Comentario</th>
+                </tr>
+            </thead>
+            <tbody id="grades-body">
+                <tr>
+                    <td>Unidad 1</td>
+                    <td><span class="grade-cell grade-high">85</span></td>
+                    <td class="comment-cell">Buen trabajo en la primera unidad</td>
+                </tr>
+                <tr>
+                    <td>Unidad 2</td>
+                    <td><span class="grade-cell grade-high">90</span></td>
+                    <td class="comment-cell">Excelente desempeño, sigue así</td>
+                </tr>
+                <tr>
+                    <td>Unidad 3</td>
+                    <td><span class="grade-cell grade-high">92</span></td>
+                    <td class="comment-cell">Trabajo sobresaliente en esta unidad</td>
+                </tr>
+                <tr>
+                    <td><strong>Promedio</strong></td>
+                    <td><span class="grade-cell grade-high">89</span></td>
+                    <td class="comment-cell">Excelente desempeño general en el curso</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <footer>
+        <div class="copyright">
+            &copy; 2023 CMT. Todos los derechos reservados.
+        </div>
+    </footer>
+    
+    <script>
+        // Script para cambiar las calificaciones según el curso seleccionado
+        document.getElementById('course-select').addEventListener('change', function() {
+            const courseId = this.value;
+            if (!courseId) {
+                document.getElementById('grades-body').innerHTML = `
+                    <tr>
+                        <td colspan="3" class="empty-message">
+                            Seleccione un curso para ver las calificaciones
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Simulación de datos para diferentes cursos
+            const courseData = {
+                "1": [
+                    { unit: "Unidad 1", score: 85, comment: "Buen trabajo en la primera unidad" },
+                    { unit: "Unidad 2", score: 90, comment: "Excelente desempeño, sigue así" },
+                    { unit: "Unidad 3", score: 92, comment: "Trabajo sobresaliente en esta unidad" }
+                ],
+                "2": [
+                    { unit: "Unidad 1", score: 68, comment: "Necesitas mejorar en esta área" },
+                    { unit: "Unidad 2", score: 73, comment: "Mejora notable desde la primera unidad" },
+                    { unit: "Unidad 3", score: 80, comment: "Buen progreso, continúa esforzándote" }
+                ],
+                "3": [
+                    { unit: "Unidad 1", score: 90, comment: "Excelente trabajo con las gráficas" },
+                    { unit: "Unidad 2", score: 88, comment: "Muy buen desempeño" },
+                    { unit: "Unidad 3", score: 92, comment: "Proyecto final sobresaliente" }
+                ],
+                "4": [
+                    { unit: "Unidad 1", score: 75, comment: "Buen entendimiento de los conceptos básicos" },
+                    { unit: "Unidad 2", score: 82, comment: "Mejora en la comprensión de autómatas" },
+                    { unit: "Unidad 3", score: 78, comment: "Buen trabajo en general" }
+                ],
+                "5": [
+                    { unit: "Unidad 1", score: 0, comment: "No presentado" },
+                    { unit: "Unidad 2", score: 0, comment: "No presentado" },
+                    { unit: "Unidad 3", score: 0, comment: "No presentado" }
+                ]
+            };
+            
+            const data = courseData[courseId];
+            
+            if (!data) {
+                return;
+            }
+            
+            // Calcular promedio
+            const total = data.reduce((sum, item) => sum + item.score, 0);
+            const average = Math.round(total / data.length);
+            
+            // Generar filas de la tabla
+            let html = '';
+            data.forEach(item => {
+                let gradeClass = 'grade-mid';
+                if (item.score >= 85) gradeClass = 'grade-high';
+                else if (item.score < 70) gradeClass = 'grade-low';
+                
+                html += `
+                    <tr>
+                        <td>${item.unit}</td>
+                        <td><span class="grade-cell ${gradeClass}">${item.score}</span></td>
+                        <td class="comment-cell">${item.comment}</td>
+                    </tr>
+                `;
+            });
+            
+            // Agregar fila de promedio
+            let avgClass = 'grade-mid';
+            if (average >= 85) avgClass = 'grade-high';
+            else if (average < 70) avgClass = 'grade-low';
+            
+            html += `
+                <tr>
+                    <td><strong>Promedio</strong></td>
+                    <td><span class="grade-cell ${avgClass}">${average}</span></td>
+                    <td class="comment-cell">Calificación promedio del curso</td>
+                </tr>
+            `;
+            
+            document.getElementById('grades-body').innerHTML = html;
+        });
+    </script>
+</body>
+</html>
