@@ -76,13 +76,23 @@
                 </tr>
             </thead>
             <tbody id="grades-body">
+                <?php
+                $sql = "SELECT * FROM estudiantes";
+                $result = $conn->query($sql);
+    
+                while($row = $result->fetch_assoc()):
+                    function colorClass($nota) {
+                        if (is_null($nota)) return '';
+                        return $nota >= 70 ? 'green' : 'red';
+                    }
+                ?>
                 <tr>
-                    <td>Ana Martínez</td>
-                    <td><span class="grade-cell grade-high">85</span></td>
-                    <td><span class="grade-cell grade-high">92</span></td>
-                    <td><span class="grade-cell grade-high">91</span></td>
-                    <td><span class="grade-cell grade-high">89</span></td>
-                    <td class="comment-cell">Excelente alumna</td>
+                    <td><?= $row['nombre'] ?></td>
+                <td class="<?= colorClass($row['unidad1']) ?>"><?= $row['unidad1'] ?? '—' ?></td>
+                <td class="<?= colorClass($row['unidad2']) ?>"><?= $row['unidad2'] ?? '—' ?></td>
+                <td class="<?= colorClass($row['unidad3']) ?>"><?= $row['unidad3'] ?? '—' ?></td>
+                <td class="<?= colorClass($row['promedio']) ?>"><?= $row['promedio'] ?></td>
+                <td><?= $row['comentario'] ?></td>
                     <td class="action-cell">
                         <button class="edit-comment-btn" data-student-id="1" title="Agregar comentario">
                             <i class="fas fa-comment"></i>
@@ -92,70 +102,7 @@
                         </button>
                     </td>
                 </tr>
-                <tr>
-                    <td>Juan Gómez</td>
-                    <td><span class="grade-cell grade-high">72</span></td>
-                    <td><span class="grade-cell grade-high">90</span></td>
-                    <td><span class="grade-cell grade-high">84</span></td>
-                    <td><span class="grade-cell grade-high">82</span></td>
-                    <td class="comment-cell">Buen desempeño</td>
-                    <td class="action-cell">
-                        <button class="edit-comment-btn" data-student-id="2" title="Agregar comentario">
-                            <i class="fas fa-comment"></i>
-                        </button>
-                        <button class="edit-grade-btn" data-student-id="2" title="Modificar calificación">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Carlos Ruíz</td>
-                    <td><span class="grade-cell grade-low">58</span></td>
-                    <td><span class="grade-cell grade-low">64</span></td>
-                    <td><span class="grade-cell grade-high">71</span></td>
-                    <td><span class="grade-cell grade-low">64</span></td>
-                    <td class="comment-cell">Necesita mejorar</td>
-                    <td class="action-cell">
-                        <button class="edit-comment-btn" data-student-id="3" title="Agregar comentario">
-                            <i class="fas fa-comment"></i>
-                        </button>
-                        <button class="edit-grade-btn" data-student-id="3" title="Modificar calificación">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sergio Acosta</td>
-                    <td><span class="grade-cell grade-high">86</span></td>
-                    <td><span class="grade-cell grade-high">94</span></td>
-                    <td><span class="grade-cell grade-high">86</span></td>
-                    <td><span class="grade-cell grade-high">89</span></td>
-                    <td class="comment-cell">Muy buen trabajo</td>
-                    <td class="action-cell">
-                        <button class="edit-comment-btn" data-student-id="4" title="Agregar comentario">
-                            <i class="fas fa-comment"></i>
-                        </button>
-                        <button class="edit-grade-btn" data-student-id="4" title="Modificar calificación">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Marta Flores</td>
-                    <td><span class="grade-cell grade-low">68</span></td>
-                    <td><span class="grade-cell grade-low">60</span></td>
-                    <td><span class="grade-cell grade-high">78</span></td>
-                    <td><span class="grade-cell grade-low">69</span></td>
-                    <td class="comment-cell">Mejoró en la última unidad</td>
-                    <td class="action-cell">
-                        <button class="edit-comment-btn" data-student-id="5" title="Agregar comentario">
-                            <i class="fas fa-comment"></i>
-                        </button>
-                        <button class="edit-grade-btn" data-student-id="5" title="Modificar calificación">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
+                <?php endwhile; ?>
             </tbody>
         </table>
     </section>
@@ -221,17 +168,7 @@
     </footer>
     
     <script>
-        // Simulación de datos de estudiantes
-        const studentsData = [
-            { id: 1, name: "Ana Martínez", unit1: 85, unit2: 92, unit3: 91, average: 89, comment: "Excelente alumna" },
-            { id: 2, name: "Juan Gómez", unit1: 72, unit2: 90, unit3: 84, average: 82, comment: "Buen desempeño" },
-            { id: 3, name: "Carlos Ruíz", unit1: 58, unit2: 64, unit3: 71, average: 64, comment: "Necesita mejorar" },
-            { id: 4, name: "Sergio Acosta", unit1: 86, unit2: 94, unit3: 86, average: 89, comment: "Muy buen trabajo" },
-            { id: 5, name: "Marta Flores", unit1: 68, unit2: 60, unit3: 78, average: 69, comment: "Mejoró en la última unidad" },
-            { id: 6, name: "Pablo Reyes", unit1: 70, unit2: 59, unit3: 96, average: 75, comment: "Gran mejora en la unidad 3" },
-            { id: 7, name: "Sonia Núñez", unit1: 78, unit2: 68, unit3: 67, average: 71, comment: "Consistente" },
-            { id: 8, name: "Javier Ortiz", unit1: 34, unit2: 77, unit3: 70, average: 60, comment: "Se recuperó después de la unidad 1" }
-        ];
+       
         
         // Función para renderizar la tabla de calificaciones
         function renderGradesTable(data) {
