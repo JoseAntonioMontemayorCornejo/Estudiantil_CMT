@@ -211,6 +211,21 @@ form button {
 
 /* Imagen decorativa de león al lado del formulario */
 .lion-image img {
-    text-align: left;
-    
+    width: 500px;
+    height: 500px;
+    object-fit: contain; /* Ajusta la imagen sin distorsionarla */
 }
+
+@media (max-width: 1024px) {
+    .lion-image img {
+        width: 100%;
+        height: auto;
+        max-width: 400px;
+    }
+
+    .login-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
