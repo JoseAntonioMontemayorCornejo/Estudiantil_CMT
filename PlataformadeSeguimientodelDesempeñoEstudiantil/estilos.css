@@ -211,6 +211,6 @@ form button {
 
 /* Imagen decorativa de león al lado del formulario */
 .lion-image img {
-    text-align: left;
-    
+    width: 300px; /* Cambia este valor según lo que necesites */
+    height: auto; /* Mantiene proporciones */
 }

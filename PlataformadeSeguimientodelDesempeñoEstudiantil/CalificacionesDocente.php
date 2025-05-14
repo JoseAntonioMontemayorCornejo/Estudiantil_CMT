@@ -1,4 +1,34 @@
-<?php include("conexion.php"); ?>
+<?php
+include("conexion.php");
+
+// Función para aplicar color según la nota
+function colorClass($nota) {
+    if (is_null($nota)) return '';
+    return $nota >= 70 ? 'green' : 'red';
+}
+
+// Consulta a la base de datos
+$sql = "SELECT * FROM estudiantes";
+$result = $conn->query($sql);
+
+// Crear arreglo de estudiantes
+$estudiantes = [];
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $estudiantes[] = [
+            'id' => $row['id'],
+            'name' => $row['nombre'],
+            'unit1' => (int)($row['unidad1'] ?? 0),
+            'unit2' => (int)($row['unidad2'] ?? 0),
+            'unit3' => (int)($row['unidad3'] ?? 0),
+            'average' => (int)($row['promedio'] ?? 0),
+            'comment' => $row['comentario'] ?? '',
+            'semestre' => (int)($row['semestre'] ?? 1),
+            'curso' => (int)($row['curso'] ?? 1)
+        ];
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -8,6 +38,9 @@
     <title>Calificaciones Docente - CMT</title>
     <link rel="stylesheet" href="calificacionesDocente.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        const studentsData = <?= json_encode($estudiantes); ?>;
+    </script>
 </head>
 <body>
     <header>
@@ -75,34 +108,24 @@
                 </tr>
             </thead>
             <tbody id="grades-body">
-                <?php
-                $sql = "SELECT * FROM estudiantes";
-                $result = $conn->query($sql);
-
-                function colorClass($nota) {
-                    if (is_null($nota)) return '';
-                    return $nota >= 70 ? 'green' : 'red';
-                }
-
-                while($row = $result->fetch_assoc()):
-                ?>
-                <tr>
-                    <td><?= $row['nombre'] ?></td>
-                    <td class="<?= colorClass($row['unidad1']) ?>"><?= $row['unidad1'] ?? '—' ?></td>
-                    <td class="<?= colorClass($row['unidad2']) ?>"><?= $row['unidad2'] ?? '—' ?></td>
-                    <td class="<?= colorClass($row['unidad3']) ?>"><?= $row['unidad3'] ?? '—' ?></td>
-                    <td class="<?= colorClass($row['promedio']) ?>"><?= $row['promedio'] ?? '—' ?></td>
-                    <td><?= $row['comentario'] ?></td>
-                    <td class="action-cell">
-                        <button class="edit-comment-btn" data-id="<?= $row['id'] ?>" data-name="<?= $row['nombre'] ?>" data-comment="<?= $row['comentario'] ?>">
-                            <i class="fas fa-comment"></i>
-                        </button>
-                        <button class="edit-grade-btn" data-id="<?= $row['id'] ?>" data-name="<?= $row['nombre'] ?>">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
+                <?php foreach ($estudiantes as $row): ?>
+                    <tr>
+                        <td><?= $row['name'] ?></td>
+                        <td class="<?= colorClass($row['unit1']) ?>"><?= $row['unit1'] ?? '—' ?></td>
+                        <td class="<?= colorClass($row['unit2']) ?>"><?= $row['unit2'] ?? '—' ?></td>
+                        <td class="<?= colorClass($row['unit3']) ?>"><?= $row['unit3'] ?? '—' ?></td>
+                        <td class="<?= colorClass($row['average']) ?>"><?= $row['average'] ?? '—' ?></td>
+                        <td><?= $row['comment'] ?></td>
+                        <td class="action-cell">
+                            <button class="edit-comment-btn" data-id="<?= $row['id'] ?>" data-name="<?= $row['name'] ?>" data-comment="<?= $row['comment'] ?>">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                            <button class="edit-grade-btn" data-id="<?= $row['id'] ?>" data-name="<?= $row['name'] ?>">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>
@@ -159,33 +182,33 @@
     </footer>
 
     <script>
-    document.querySelectorAll('.edit-comment-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('student-id').value = btn.dataset.id;
-            document.getElementById('student-name').textContent = btn.dataset.name;
-            document.getElementById('comment').value = btn.dataset.comment || '';
-            document.getElementById('comment-modal').style.display = 'flex';
+        document.querySelectorAll('.edit-comment-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('student-id').value = btn.dataset.id;
+                document.getElementById('student-name').textContent = btn.dataset.name;
+                document.getElementById('comment').value = btn.dataset.comment || '';
+                document.getElementById('comment-modal').style.display = 'flex';
+            });
         });
-    });
 
-    document.querySelectorAll('.edit-grade-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('grade-student-id').value = btn.dataset.id;
-            document.getElementById('grade-student-name').textContent = btn.dataset.name;
-            document.getElementById('grade-modal').style.display = 'flex';
+        document.querySelectorAll('.edit-grade-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('grade-student-id').value = btn.dataset.id;
+                document.getElementById('grade-student-name').textContent = btn.dataset.name;
+                document.getElementById('grade-modal').style.display = 'flex';
+            });
         });
-    });
 
-    document.querySelectorAll('.close-btn, .close-modal-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('comment-modal').style.display = 'none';
-            document.getElementById('grade-modal').style.display = 'none';
+        document.querySelectorAll('.close-btn, .close-modal-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('comment-modal').style.display = 'none';
+                document.getElementById('grade-modal').style.display = 'none';
+            });
         });
-    });
 
-    document.getElementById('export-btn').addEventListener('click', () => {
-        alert('Exportando a PDF... (implementar con jsPDF)');
-    });
+        document.getElementById('export-btn').addEventListener('click', () => {
+            alert('Exportando a PDF... (implementar con jsPDF)');
+        });
     </script>
     <script src="scripts.js"></script>
 </body>
