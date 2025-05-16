@@ -107,26 +107,7 @@ if ($result) {
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody id="grades-body">
-                <?php foreach ($estudiantes as $row): ?>
-                    <tr>
-                        <td><?= $row['name'] ?></td>
-                        <td class="<?= colorClass($row['unit1']) ?>"><?= $row['unit1'] ?? '—' ?></td>
-                        <td class="<?= colorClass($row['unit2']) ?>"><?= $row['unit2'] ?? '—' ?></td>
-                        <td class="<?= colorClass($row['unit3']) ?>"><?= $row['unit3'] ?? '—' ?></td>
-                        <td class="<?= colorClass($row['average']) ?>"><?= $row['average'] ?? '—' ?></td>
-                        <td><?= $row['comment'] ?></td>
-                        <td class="action-cell">
-                            <button class="edit-comment-btn" data-id="<?= $row['id'] ?>" data-name="<?= $row['name'] ?>" data-comment="<?= $row['comment'] ?>">
-                                <i class="fas fa-comment"></i>
-                            </button>
-                            <button class="edit-grade-btn" data-id="<?= $row['id'] ?>" data-name="<?= $row['name'] ?>">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+            <tbody id="grades-body"></tbody>
         </table>
     </section>
 
@@ -182,22 +163,77 @@ if ($result) {
     </footer>
 
     <script>
-        document.querySelectorAll('.edit-comment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('student-id').value = btn.dataset.id;
-                document.getElementById('student-name').textContent = btn.dataset.name;
-                document.getElementById('comment').value = btn.dataset.comment || '';
-                document.getElementById('comment-modal').style.display = 'flex';
-            });
-        });
+        const semesterSelect = document.getElementById('semester-select');
+        const courseSelect = document.getElementById('course-select');
+        const statusSelect = document.getElementById('status-select');
+        const gradesBody = document.getElementById('grades-body');
 
-        document.querySelectorAll('.edit-grade-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('grade-student-id').value = btn.dataset.id;
-                document.getElementById('grade-student-name').textContent = btn.dataset.name;
-                document.getElementById('grade-modal').style.display = 'flex';
+        function getColor(nota) {
+            if (nota === null || nota === 0) return '';
+            return nota >= 70 ? 'green' : 'red';
+        }
+
+        function renderTable(data) {
+            gradesBody.innerHTML = '';
+            data.forEach(est => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${est.name}</td>
+                    <td class="${getColor(est.unit1)}">${est.unit1 || '—'}</td>
+                    <td class="${getColor(est.unit2)}">${est.unit2 || '—'}</td>
+                    <td class="${getColor(est.unit3)}">${est.unit3 || '—'}</td>
+                    <td class="${getColor(est.average)}">${est.average || '—'}</td>
+                    <td>${est.comment}</td>
+                    <td class="action-cell">
+                        <button class="edit-comment-btn" data-id="${est.id}" data-name="${est.name}" data-comment="${est.comment}"><i class="fas fa-comment"></i></button>
+                        <button class="edit-grade-btn" data-id="${est.id}" data-name="${est.name}"><i class="fas fa-edit"></i></button>
+                    </td>
+                `;
+                gradesBody.appendChild(row);
             });
-        });
+            assignModalButtons();
+        }
+
+        function applyFilters() {
+            const semester = parseInt(semesterSelect.value);
+            const course = parseInt(courseSelect.value);
+            const status = statusSelect.value;
+
+            const filtered = studentsData.filter(est => {
+                const bySemester = !semester || est.semestre === semester;
+                const byCourse = !course || est.curso === course;
+                let byStatus = true;
+                if (status === 'passed') byStatus = est.average >= 70;
+                else if (status === 'failed') byStatus = est.average < 70;
+                return bySemester && byCourse && byStatus;
+            });
+            renderTable(filtered);
+        }
+
+        function assignModalButtons() {
+            document.querySelectorAll('.edit-comment-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('student-id').value = btn.dataset.id;
+                    document.getElementById('student-name').textContent = btn.dataset.name;
+                    document.getElementById('comment').value = btn.dataset.comment || '';
+                    document.getElementById('comment-modal').style.display = 'flex';
+                });
+            });
+
+            document.querySelectorAll('.edit-grade-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('grade-student-id').value = btn.dataset.id;
+                    document.getElementById('grade-student-name').textContent = btn.dataset.name;
+                    document.getElementById('grade-modal').style.display = 'flex';
+                });
+            });
+        }
+
+        semesterSelect.addEventListener('change', applyFilters);
+        courseSelect.addEventListener('change', applyFilters);
+        statusSelect.addEventListener('change', applyFilters);
+
+        renderTable(studentsData);
 
         document.querySelectorAll('.close-btn, .close-modal-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -210,6 +246,5 @@ if ($result) {
             alert('Exportando a PDF... (implementar con jsPDF)');
         });
     </script>
-    <script src="scripts.js"></script>
 </body>
 </html>
