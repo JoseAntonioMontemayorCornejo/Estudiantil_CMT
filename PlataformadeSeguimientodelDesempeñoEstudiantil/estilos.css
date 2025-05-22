@@ -229,3 +229,68 @@ form button {
     }
 }
 
+/* Sección Nosotros */
+.nosotros-section {
+  padding: 40px 20px;
+  background-image: url('Imagenes/Fondo.jpg'); /* Cambia esta ruta si es necesario */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.nosotros-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Tarjetas semitransparentes para legibilidad */
+.nosotros-container .card {
+  background-color: rgb(255, 255, 255); /* Negro con transparencia */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  color: rgb(0, 0, 0);
+}
+
+.nosotros-container h2,
+.nosotros-container h3 {
+  color: #d94228; /* Color de marca */
+  margin-bottom: 15px;
+}
+
+.nosotros-container p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.nosotros-container ul {
+  list-style: disc inside;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.contact-info li {
+  margin-bottom: 10px;
+}
+
+.contact-info a {
+  color: #d94228;
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px){
+  .nosotros-container {
+    padding: 0 10px;
+  }
+  .nosotros-container .card {
+    padding: 15px;
+  }
+}
