@@ -34,7 +34,6 @@ function renderTable(data) {
         gradesBody.appendChild(row);
     });
 
-    // Volver a asignar eventos a los nuevos botones
     assignModalButtons();
 }
 
@@ -137,32 +136,37 @@ document.getElementById('comment-form').addEventListener('submit', async functio
 // ===============================
 // 9. ENVIAR FORMULARIO DE CALIFICACIÓN
 // ===============================
-document.getElementById('grade-form').addEventListener('submit', async function(e) {
+document.getElementById('grade-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const studentId = document.getElementById('grade-student-id').value;
+    const id = document.getElementById('grade-student-id').value;
     const unidad = document.getElementById('unit-select').value;
     const nota = document.getElementById('new-grade').value;
-    const comentario = document.getElementById('grade-comment').value;
+    const comentario = document.getElementById('grade-comment').value.trim();
 
     const formData = new FormData();
-    formData.append('id', studentId);
-    formData.append('unidad', unidad);
-    formData.append('nota', nota);
-    formData.append('comentario', comentario);
-
-    const response = await fetch('actualizar_calificacion.php', {
-        method: 'POST',
-        body: formData
-    });
-
-    const result = await response.json();
-    if (result.success) {
-        alert('Calificación actualizada');
-        location.reload();
-    } else {
-        alert('Error al actualizar la calificación');
+    formData.append("id", id);
+    formData.append("unidad", unidad);
+    formData.append("nota", nota);
+    if (comentario) {
+        formData.append("comentario", comentario);
     }
+
+    fetch("actualizar_calificacion.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(err => {
+        console.error("Error al actualizar:", err);
+        alert("Error de conexión al actualizar calificación.");
+    });
 });
 
 // ===============================
@@ -175,8 +179,44 @@ document.getElementById('export-btn').addEventListener('click', () => {
 // ===============================
 // 11. INICIALIZAR TABLA Y APLICAR FILTROS
 // ===============================
-// Asegúrate de que `studentsData` esté definido en el HTML como un array válido
 console.log('Estudiantes cargados:', studentsData); // Verifica que existe
 
 renderTable(studentsData); // Cargar todos los estudiantes al iniciar
 applyFilters(); // Aplicar filtros si alguno está seleccionado
+
+
+
+
+
+
+document.getElementById('grade-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const id = document.getElementById('grade-student-id').value;
+    const unidad = document.getElementById('unit-select').value;
+    const nota = document.getElementById('new-grade').value;
+    const comentario = document.getElementById('grade-comment').value;
+
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("unidad", unidad);
+    formData.append("nota", nota);
+    formData.append("comentario", comentario);
+
+    fetch('actualizar_calificacion.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())  // <= AQUÍ VA
+    .then(data => {
+        console.log(data); // Opcional, útil para depuración
+        alert(data.message);
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(err => {
+        console.error("Error al conectar:", err);
+        alert("Error al actualizar la calificación.");
+    });
+});

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-05-2025 a las 19:21:36
+-- Tiempo de generación: 23-05-2025 a las 22:28:50
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -41,12 +41,77 @@ CREATE TABLE `alumnos` (
 --
 
 INSERT INTO `alumnos` (`id`, `nombre`, `correo`, `contrasena`, `semestre`, `curso`) VALUES
-(1, NULL, NULL, '$2y$10$fOu49qYMX2NQCY.SWuq1AOPX.Seb.KL9tTkd4VBnTPTTSN0MMoHFC', NULL, NULL),
-(2, 'Alvaro', 'jose.montemayor.22isc@tecsanpedro.edu.mx', '$2y$10$YPFmrF2H8xUCDLvZjjsymecc5Oqe93JNfU.e.onJpkI19tm8UI2Ty', 2, 1),
-(3, 'Jorge Monsivais', 'tonymontemayor037@gmail.com', '$2y$10$ZAe/iUgqneoKHX4CJ3Luy.2H3gmnilbSJCXm6AyILdugx5mpjZc1.', 1, 5),
-(4, NULL, NULL, '$2y$10$JGHRQRMIw7VPSAxx0mTnYO0WPAkII6YIBMVPfYlC8XsHCqkJHh7Ti', NULL, NULL),
-(5, NULL, NULL, '$2y$10$UlF8yWY9YK0aGdLJH9R6NeRmVTG50nSzFPo.hY001bWPWlAjEslBC', NULL, NULL),
-(6, 'Marco Manuel', 'marco.manuel.22isc@tecsanpedro.edu.mx', '$2y$10$N2kljIqC3smDv5wyEOZCnuZ4c17LJT5fhA0sV/bBVgQ9ySLzM3Lha', 1, 2);
+(2, 'Alvaro', 'jose.montemayor.22isc@tecsanpedro.edu.mx', '18204', 2, 1),
+(3, 'Jorge Monsivais', 'tonymontemayor037@gmail.com', '424212', 1, 5),
+(6, 'Marco Manuel', 'marco.manuel.22isc@tecsanpedro.edu.mx', '424212', 1, 2),
+(7, 'Jose Mauel Montemayor Cornejo', 'jose.manuel.22isc@tecsanpedro.edu.mx', '424212', 1, 4),
+(8, 'Alexis Quistian', 'Alexis@gmail.com', '424212', 4, 2),
+(9, 'Alejandro Juarez', 'ale@gmail.com', '424212', 4, 5),
+(10, 'Odalys Castro', 'Odalys@gmail.com', '424212', 3, 3),
+(11, 'Luis Mendoza', 'luis.mendoza@tecsanpedro.edu.mx', '1234', 3, 5),
+(12, 'Sofia Ruiz', 'sofia.ruiz@tecsanpedro.edu.mx', '1234', 2, 1),
+(13, 'Carlos Torres', 'carlos.torres@tecsanpedro.edu.mx', '1234', 4, 3),
+(14, 'Daniela Rios', 'daniela.rios@tecsanpedro.edu.mx', '1234', 1, 2),
+(15, 'Javier Soto', 'javier.soto@tecsanpedro.edu.mx', '1234', 3, 4),
+(16, 'Ana Lucia', 'ana.lucia@tecsanpedro.edu.mx', '1234', 1, 1),
+(17, 'Fernando Lopez', 'fernando.lopez@tecsanpedro.edu.mx', '1234', 2, 5),
+(18, 'Isabella Garcia', 'isabella.garcia@tecsanpedro.edu.mx', '1234', 4, 2),
+(19, 'Bruno Martinez', 'bruno.martinez@tecsanpedro.edu.mx', '1234', 3, 3),
+(20, 'Valeria Chavez', 'valeria.chavez@tecsanpedro.edu.mx', '1234', 1, 4),
+(21, 'Emilio Ramos', 'emilio.ramos@tecsanpedro.edu.mx', '1234', 2, 2),
+(22, 'Lucia Navarro', 'lucia.navarro@tecsanpedro.edu.mx', '1234', 1, 1),
+(23, 'Mateo Gil', 'mateo.gil@tecsanpedro.edu.mx', '1234', 3, 2),
+(24, 'Regina Herrera', 'regina.herrera@tecsanpedro.edu.mx', '1234', 4, 3),
+(25, 'Ivan Castro', 'ivan.castro@tecsanpedro.edu.mx', '1234', 2, 1),
+(26, 'Camila Gomez', 'camila.gomez@tecsanpedro.edu.mx', '1234', 1, 5),
+(27, 'Sebastian Salas', 'sebastian.salas@tecsanpedro.edu.mx', '1234', 4, 4),
+(28, 'Paula Cantu', 'paula.cantu@tecsanpedro.edu.mx', '1234', 3, 3),
+(29, 'Diego Luna', 'diego.luna@tecsanpedro.edu.mx', '1234', 2, 2),
+(30, 'Andrea Ibarra', 'andrea.ibarra@tecsanpedro.edu.mx', '1234', 1, 3),
+(31, 'Mario Treviño', 'mario.trevino@tecsanpedro.edu.mx', '1234', 4, 1),
+(32, 'Fernanda Moya', 'fernanda.moya@tecsanpedro.edu.mx', '1234', 3, 5),
+(33, 'Alejandro Peña', 'alejandro.pena@tecsanpedro.edu.mx', '1234', 2, 4),
+(34, 'Renata Ortiz', 'renata.ortiz@tecsanpedro.edu.mx', '1234', 1, 2),
+(35, 'Adrian Molina', 'adrian.molina@tecsanpedro.edu.mx', '1234', 3, 3),
+(36, 'Carla Duran', 'carla.duran@tecsanpedro.edu.mx', '1234', 2, 5),
+(37, 'Hector Rivera', 'hector.rivera@tecsanpedro.edu.mx', '1234', 4, 1),
+(38, 'Jimena Valdez', 'jimena.valdez@tecsanpedro.edu.mx', '1234', 1, 4),
+(39, 'Santiago Leal', 'santiago.leal@tecsanpedro.edu.mx', '1234', 3, 2),
+(40, 'Natalia Zamora', 'natalia.zamora@tecsanpedro.edu.mx', '1234', 4, 3),
+(41, 'Lucas Rangel', 'lucas.rangel@tecsanpedro.edu.mx', '1234', 2, 1),
+(42, 'Maite Estrada', 'maite.estrada@tecsanpedro.edu.mx', '1234', 1, 5),
+(43, 'Esteban Cano', 'esteban.cano@tecsanpedro.edu.mx', '1234', 3, 4),
+(44, 'Andrea Sepulveda', 'andrea.sepulveda@tecsanpedro.edu.mx', '1234', 2, 3),
+(45, 'Victor Ayala', 'victor.ayala@tecsanpedro.edu.mx', '1234', 4, 5),
+(46, 'Daniel Guerrero', 'daniel.guerrero@tecsanpedro.edu.mx', '1234', 1, 2),
+(47, 'Sara Solis', 'sara.solis@tecsanpedro.edu.mx', '1234', 3, 1),
+(48, 'Leonardo Rios', 'leonardo.rios@tecsanpedro.edu.mx', '1234', 2, 3),
+(49, 'Gabriela Vega', 'gabriela.vega@tecsanpedro.edu.mx', '1234', 1, 4),
+(50, 'Rodrigo Mendez', 'rodrigo.mendez@tecsanpedro.edu.mx', '1234', 4, 2),
+(192, 'Camila Cruz', 'camila.cruz@tecsanpedro.edu.mx', '1234', 1, 1),
+(193, 'Jorge Ruiz', 'jorge.ruiz@tecsanpedro.edu.mx', '1234', 1, 1),
+(194, 'Esteban Molina', 'esteban.molina@tecsanpedro.edu.mx', '1234', 1, 1),
+(195, 'Natalia Castillo', 'natalia.castillo@tecsanpedro.edu.mx', '1234', 1, 1),
+(196, 'Pablo Rivas', 'pablo.rivas@tecsanpedro.edu.mx', '1234', 1, 1),
+(197, 'Hugo Medina', 'hugo.medina@tecsanpedro.edu.mx', '1234', 1, 2),
+(198, 'Julieta Vargas', 'julieta.vargas@tecsanpedro.edu.mx', '1234', 1, 2),
+(199, 'Samuel Rojas', 'samuel.rojas@tecsanpedro.edu.mx', '1234', 1, 2),
+(200, 'Pamela Soto', 'pamela.soto@tecsanpedro.edu.mx', '1234', 1, 2),
+(201, 'Ricardo Peña', 'ricardo.pena@tecsanpedro.edu.mx', '1234', 1, 2),
+(202, 'Florencia Luna', 'florencia.luna@tecsanpedro.edu.mx', '1234', 1, 2),
+(203, 'Erick Ayala', 'erick.ayala@tecsanpedro.edu.mx', '1234', 1, 2),
+(204, 'Daniela Duran', 'daniela.duran@tecsanpedro.edu.mx', '1234', 1, 2),
+(205, 'Ivan Espinoza', 'ivan.espinoza@tecsanpedro.edu.mx', '1234', 1, 2),
+(206, 'Melanie Vargas', 'melanie.vargas@tecsanpedro.edu.mx', '1234', 1, 2),
+(207, 'Cristina Torres', 'cristina.torres@tecsanpedro.edu.mx', '1234', 1, 2),
+(208, 'Kevin Reyes', 'kevin.reyes@tecsanpedro.edu.mx', '1234', 1, 2),
+(209, 'Monica Diaz', 'monica.diaz@tecsanpedro.edu.mx', '1234', 1, 2),
+(210, 'Victor Cano', 'victor.cano@tecsanpedro.edu.mx', '1234', 1, 2),
+(211, 'Emma Jimenez', 'emma.jimenez@tecsanpedro.edu.mx', '1234', 1, 2),
+(212, 'Dario Beltran', 'dario.beltran@tecsanpedro.edu.mx', '1234', 1, 2),
+(213, 'Laura Castañeda', 'laura.castaneda@tecsanpedro.edu.mx', '1234', 1, 2),
+(214, 'Gustavo Romero', 'gustavo.romero@tecsanpedro.edu.mx', '1234', 1, 2),
+(215, 'Mia Bravo', 'mia.bravo@tecsanpedro.edu.mx', '1234', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -69,12 +134,31 @@ CREATE TABLE `calificaciones` (
 --
 
 INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`, `promedio`, `comentario`) VALUES
-(1, 1, 0, 0, 0, 0, NULL),
-(2, 2, 0, 0, 0, 0, NULL),
-(3, 3, 0, 0, 0, 0, NULL),
-(4, 4, 0, 0, 0, 0, NULL),
-(5, 5, 0, 0, 0, 0, NULL),
-(6, 6, 0, 0, 0, 0, NULL);
+(2, 2, 85, 90, 95, 0, 'Buen desempeños'),
+(3, 3, 70, 80, 75, 0, 'Puede mejorar en unidad 3'),
+(6, 6, 60, 65, 70, 0, 'Regular'),
+(7, 7, 100, 100, 95, 0, 'Excelente trabajos'),
+(8, 8, 50, 55, 60, 0, 'Debe esforzarse más'),
+(9, 9, 90, 85, 90, 0, 'Buen rendimiento general'),
+(10, 10, 0, 0, 0, 0, NULL),
+(11, 11, 88, 92, 85, 0, 'Participa activamente'),
+(12, 12, 75, 78, 72, 0, 'Constante en sus entregas'),
+(13, 13, 40, 45, 50, 0, 'Debe mejorar bastante'),
+(14, 14, 95, 90, 88, 0, 'Muy buen trabajo'),
+(15, 15, 82, 84, 86, 0, 'Buen progreso'),
+(16, 16, 67, 60, 63, 0, 'Le falta repasar teoría'),
+(17, 17, 91, 94, 89, 0, 'Excelente participación'),
+(18, 18, 55, 50, 52, 0, 'Debe asistir más a clase'),
+(19, 19, 73, 75, 78, 0, 'Buen avance'),
+(20, 20, 89, 85, 87, 0, 'Responsable y puntual'),
+(21, 21, 60, 65, 60, 0, 'Rinde mejor en práctica'),
+(22, 22, 70, 68, 75, 0, 'Mejoró en unidad 3'),
+(23, 23, 95, 93, 97, 0, 'Trabajo excelente'),
+(24, 24, 78, 70, 74, 0, 'Regular con buenos momentos'),
+(25, 25, 65, 60, 58, 0, 'Debe entregar tareas'),
+(26, 26, 88, 84, 85, 0, 'Buen manejo del contenido'),
+(27, 27, 90, 90, 90, 0, 'Muy buen nivel'),
+(28, 28, 0, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -96,35 +180,6 @@ CREATE TABLE `docentes` (
 INSERT INTO `docentes` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (1, 'Ulises Martinez', 'ulisesMartines@tecsanpedro.edu.mx', '1234567890'),
 (2, 'Gaspar', 'Gaspar@tecsanpedro.edu.mx', '$2y$10$9HhM1cKOgubU0d1at8LMfuANdcLBIrghihCOhfjm30XPfoVf09MLi');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `estudiantes`
---
-
-CREATE TABLE `estudiantes` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `unidad1` int(11) DEFAULT NULL,
-  `unidad2` int(11) DEFAULT NULL,
-  `unidad3` int(11) DEFAULT NULL,
-  `promedio` int(11) DEFAULT NULL,
-  `comentario` text DEFAULT NULL,
-  `semestre` int(11) DEFAULT NULL,
-  `curso` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `estudiantes`
---
-
-INSERT INTO `estudiantes` (`id`, `nombre`, `unidad1`, `unidad2`, `unidad3`, `promedio`, `comentario`, `semestre`, `curso`) VALUES
-(1, 'Daniel Rodallegas', 33, 44, 33, 37, 'eee', 2, 1),
-(2, 'Juan Garcia', 72, 90, 84, 82, 'Buen desempeño', 2, 2),
-(3, 'Antonio Montemayor', 58, 64, 71, 64, 'Necesita mejorar', 2, 3),
-(4, 'Ivan Escobar', 86, 94, 86, 89, 'Muy buen trabajo', 2, 4),
-(5, 'Issac Baltazar', 68, 60, 78, 69, 'Mejoró en la última unidad', 2, 5);
 
 --
 -- Índices para tablas volcadas
@@ -152,12 +207,6 @@ ALTER TABLE `docentes`
   ADD UNIQUE KEY `correo` (`correo`);
 
 --
--- Indices de la tabla `estudiantes`
---
-ALTER TABLE `estudiantes`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -165,25 +214,19 @@ ALTER TABLE `estudiantes`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 
 --
 -- AUTO_INCREMENT de la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `docentes`
 --
 ALTER TABLE `docentes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `estudiantes`
---
-ALTER TABLE `estudiantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas

@@ -1,12 +1,22 @@
 <?php
+header('Content-Type: application/json');
 include("conexion.php");
 
-$id = $_POST['id'];
-$comentario = $_POST['comentario'];
+if (!isset($_POST['id'], $_POST['comentario'])) {
+    echo json_encode(['success' => false, 'message' => 'Faltan datos.']);
+    exit();
+}
 
-$stmt = $conn->prepare("UPDATE estudiantes SET comentario = ? WHERE id = ?");
+$id = intval($_POST['id']);
+$comentario = trim($_POST['comentario']);
+
+$sql = "UPDATE calificaciones SET comentario = ? WHERE alumno_id = ?";
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("si", $comentario, $id);
-$stmt->execute();
 
-echo json_encode(['success' => true]);
+if ($stmt->execute()) {
+    echo json_encode(['success' => true, 'message' => 'Comentario actualizado.']);
+} else {
+    echo json_encode(['success' => false, 'message' => 'Error al actualizar.']);
+}
 ?>

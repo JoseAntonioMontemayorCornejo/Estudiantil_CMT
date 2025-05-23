@@ -1,17 +1,17 @@
 <?php
 include("conexion.php");
 
-// Función para aplicar color según la nota
 function colorClass($nota) {
     if (is_null($nota)) return '';
     return $nota >= 70 ? 'green' : 'red';
 }
 
-// Consulta a la base de datos
-$sql = "SELECT * FROM estudiantes";
+$sql = "SELECT a.id, a.nombre, a.semestre, a.curso, 
+               c.unidad1, c.unidad2, c.unidad3, c.promedio, c.comentario 
+        FROM alumnos a
+        LEFT JOIN calificaciones c ON a.id = c.alumno_id";
 $result = $conn->query($sql);
 
-// Crear arreglo de estudiantes
 $estudiantes = [];
 if ($result) {
     while ($row = $result->fetch_assoc()) {
@@ -23,8 +23,8 @@ if ($result) {
             'unit3' => (int)($row['unidad3'] ?? 0),
             'average' => (int)($row['promedio'] ?? 0),
             'comment' => $row['comentario'] ?? '',
-            'semestre' => (int)($row['semestre'] ?? 1),
-            'curso' => (int)($row['curso'] ?? 1)
+            'semestre' => (int)($row['semestre']),
+            'curso' => (int)($row['curso'])
         ];
     }
 }
@@ -43,208 +43,208 @@ if ($result) {
     </script>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">CMT</a>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="InicioSesionDocente.html">Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <a href="index.html" class="logo">CMT</a>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="InicioSesionDocente.html">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <section class="grades-section">
-        <div class="grades-header">
-            <h1 class="grades-title">Calificaciones</h1>
-            <div class="action-buttons">
-                <button class="btn btn-secondary" id="export-btn">
-                    <i class="fas fa-file-export"></i> Exportar PDF
-                </button>
-            </div>
-        </div>
-
-        <div class="filters">
-            <div class="select-container">
-                <label for="semester-select" class="select-label">Semestre:</label>
-                <select id="semester-select" class="select-input">
-                    <option value="">Seleccionar semestre</option>
-                    <option value="1" selected>Primer Semestre</option>
-                    <option value="2">Tercer Semestre</option>
-                    <option value="3">Quinto Semestre</option>
-                    <option value="4">Séptimo Semestre</option>
-                </select>
-            </div>
-            <div class="select-container">
-                <label for="course-select" class="select-label">Curso:</label>
-                <select id="course-select" class="select-input">
-                    <option value="">Seleccionar curso</option>
-                    <option value="1" selected>Lenguajes de interfaz 6C</option>
-                    <option value="2">Programación de base de datos</option>
-                    <option value="3">Graficación</option>
-                    <option value="4">Lenguajes autómatas I</option>
-                    <option value="5">Taller de investigación</option>
-                </select>
-            </div>
-            <div class="select-container">
-                <label for="status-select" class="select-label">Estado:</label>
-                <select id="status-select" class="select-input">
-                    <option value="all" selected>Todos</option>
-                    <option value="passed">Aprobados</option>
-                    <option value="failed">Reprobados</option>
-                </select>
-            </div>
-        </div>
-
-        <table class="grades-table">
-            <thead>
-                <tr>
-                    <th>Estudiante</th>
-                    <th>Unidad 1</th>
-                    <th>Unidad 2</th>
-                    <th>Unidad 3</th>
-                    <th>Promedio</th>
-                    <th>Comentario</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="grades-body"></tbody>
-        </table>
-    </section>
-
-    <!-- Modal Comentario -->
-    <div class="modal" id="comment-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Agregar comentario para <span id="student-name"></span></h2>
-                <button class="close-btn">&times;</button>
-            </div>
-            <form id="comment-form">
-                <input type="hidden" id="student-id">
-                <textarea id="comment" class="form-input" rows="4" placeholder="Escribe un comentario..."></textarea>
-                <div class="modal-footer">
-                    <button type="button" class="btn close-modal-btn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-            </form>
+<section class="grades-section">
+    <div class="grades-header">
+        <h1 class="grades-title">Calificaciones</h1>
+        <div class="action-buttons">
+            <button class="btn btn-secondary" id="export-btn">
+                <i class="fas fa-file-export"></i> Exportar PDF
+            </button>
         </div>
     </div>
 
-    <!-- Modal Calificación -->
-    <div class="modal" id="grade-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Modificar calificación para <span id="grade-student-name"></span></h2>
-                <button class="close-btn">&times;</button>
-            </div>
-            <form id="grade-form">
-                <input type="hidden" id="grade-student-id">
-                <label for="unit-select">Unidad:</label>
-                <select id="unit-select" class="form-input">
-                    <option value="1">Unidad 1</option>
-                    <option value="2">Unidad 2</option>
-                    <option value="3">Unidad 3</option>
-                </select>
-                <label for="new-grade">Nueva calificación:</label>
-                <input type="number" id="new-grade" class="form-input" min="0" max="100" required>
-                <label for="grade-comment">Comentario:</label>
-                <textarea id="grade-comment" class="form-input" rows="3"></textarea>
-                <div class="modal-footer">
-                    <button type="button" class="btn close-modal-btn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-            </form>
+    <div class="filters">
+        <div class="select-container">
+            <label for="semester-select" class="select-label">Semestre:</label>
+            <select id="semester-select" class="select-input">
+                <option value="">Seleccionar semestre</option>
+                <option value="1" selected>Primer Semestre</option>
+                <option value="2">Tercer Semestre</option>
+                <option value="3">Quinto Semestre</option>
+                <option value="4">Séptimo Semestre</option>
+            </select>
+        </div>
+        <div class="select-container">
+            <label for="course-select" class="select-label">Curso:</label>
+            <select id="course-select" class="select-input">
+                <option value="">Seleccionar curso</option>
+                <option value="1" selected>Lenguajes de interfaz 6C</option>
+                <option value="2">Programación de base de datos</option>
+                <option value="3">Graficación</option>
+                <option value="4">Lenguajes autómatas I</option>
+                <option value="5">Taller de investigación</option>
+            </select>
+        </div>
+        <div class="select-container">
+            <label for="status-select" class="select-label">Estado:</label>
+            <select id="status-select" class="select-input">
+                <option value="all" selected>Todos</option>
+                <option value="passed">Aprobados</option>
+                <option value="failed">Reprobados</option>
+            </select>
         </div>
     </div>
 
-    <footer>
-        <div class="copyright">
-            &copy; 2023 CMT. Todos los derechos reservados.
+    <table class="grades-table">
+        <thead>
+        <tr>
+            <th>Estudiante</th>
+            <th>Unidad 1</th>
+            <th>Unidad 2</th>
+            <th>Unidad 3</th>
+            <th>Promedio</th>
+            <th>Comentario</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="grades-body"></tbody>
+    </table>
+</section>
+
+<!-- Modal Comentario -->
+<div class="modal" id="comment-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Agregar comentario para <span id="student-name"></span></h2>
+            <button class="close-btn">&times;</button>
         </div>
-    </footer>
+        <form id="comment-form">
+            <input type="hidden" id="student-id">
+            <textarea id="comment" class="form-input" rows="4" placeholder="Escribe un comentario..."></textarea>
+            <div class="modal-footer">
+                <button type="button" class="btn close-modal-btn">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-    <script>
-        const semesterSelect = document.getElementById('semester-select');
-        const courseSelect = document.getElementById('course-select');
-        const statusSelect = document.getElementById('status-select');
-        const gradesBody = document.getElementById('grades-body');
+<!-- Modal Calificación -->
+<div class="modal" id="grade-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Modificar calificación para <span id="grade-student-name"></span></h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <form id="grade-form">
+            <input type="hidden" id="grade-student-id">
+            <label for="unit-select">Unidad:</label>
+            <select id="unit-select" class="form-input">
+                <option value="1">Unidad 1</option>
+                <option value="2">Unidad 2</option>
+                <option value="3">Unidad 3</option>
+            </select>
+            <label for="new-grade">Nueva calificación:</label>
+            <input type="number" id="new-grade" class="form-input" min="0" max="100" required>
+            <label for="grade-comment">Comentario:</label>
+            <textarea id="grade-comment" class="form-input" rows="3"></textarea>
+            <div class="modal-footer">
+                <button type="button" class="btn close-modal-btn">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-        function getColor(nota) {
-            if (nota === null || nota === 0) return '';
-            return nota >= 70 ? 'green' : 'red';
-        }
+<footer>
+    <div class="copyright">
+        &copy; 2023 CMT. Todos los derechos reservados.
+    </div>
+</footer>
 
-        function renderTable(data) {
-            gradesBody.innerHTML = '';
-            data.forEach(est => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${est.name}</td>
-                    <td class="${getColor(est.unit1)}">${est.unit1 || '—'}</td>
-                    <td class="${getColor(est.unit2)}">${est.unit2 || '—'}</td>
-                    <td class="${getColor(est.unit3)}">${est.unit3 || '—'}</td>
-                    <td class="${getColor(est.average)}">${est.average || '—'}</td>
-                    <td>${est.comment}</td>
-                    <td class="action-cell">
-                        <button class="edit-comment-btn" data-id="${est.id}" data-name="${est.name}" data-comment="${est.comment}"><i class="fas fa-comment"></i></button>
-                        <button class="edit-grade-btn" data-id="${est.id}" data-name="${est.name}"><i class="fas fa-edit"></i></button>
-                    </td>
-                `;
-                gradesBody.appendChild(row);
-            });
-            assignModalButtons();
-        }
+<script>
+    const semesterSelect = document.getElementById('semester-select');
+    const courseSelect = document.getElementById('course-select');
+    const statusSelect = document.getElementById('status-select');
+    const gradesBody = document.getElementById('grades-body');
 
-        function applyFilters() {
-            const semester = parseInt(semesterSelect.value);
-            const course = parseInt(courseSelect.value);
-            const status = statusSelect.value;
+    function getColor(nota) {
+        if (nota === null || nota === 0) return '';
+        return nota >= 70 ? 'green' : 'red';
+    }
 
-            const filtered = studentsData.filter(est => {
-                const bySemester = !semester || est.semestre === semester;
-                const byCourse = !course || est.curso === course;
-                let byStatus = true;
-                if (status === 'passed') byStatus = est.average >= 70;
-                else if (status === 'failed') byStatus = est.average < 70;
-                return bySemester && byCourse && byStatus;
-            });
-            renderTable(filtered);
-        }
+    function renderTable(data) {
+        gradesBody.innerHTML = '';
+        data.forEach(est => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${est.name}</td>
+                <td class="${getColor(est.unit1)}">${est.unit1 || '—'}</td>
+                <td class="${getColor(est.unit2)}">${est.unit2 || '—'}</td>
+                <td class="${getColor(est.unit3)}">${est.unit3 || '—'}</td>
+                <td class="${getColor(est.average)}">${est.average || '—'}</td>
+                <td>${est.comment}</td>
+                <td class="action-cell">
+                    <button class="edit-comment-btn" data-id="${est.id}" data-name="${est.name}" data-comment="${est.comment}"><i class="fas fa-comment"></i></button>
+                    <button class="edit-grade-btn" data-id="${est.id}" data-name="${est.name}"><i class="fas fa-edit"></i></button>
+                </td>
+            `;
+            gradesBody.appendChild(row);
+        });
+        assignModalButtons();
+    }
 
-        function assignModalButtons() {
-            document.querySelectorAll('.edit-comment-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.getElementById('student-id').value = btn.dataset.id;
-                    document.getElementById('student-name').textContent = btn.dataset.name;
-                    document.getElementById('comment').value = btn.dataset.comment || '';
-                    document.getElementById('comment-modal').style.display = 'flex';
-                });
-            });
+    function applyFilters() {
+        const semester = parseInt(semesterSelect.value);
+        const course = parseInt(courseSelect.value);
+        const status = statusSelect.value;
 
-            document.querySelectorAll('.edit-grade-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.getElementById('grade-student-id').value = btn.dataset.id;
-                    document.getElementById('grade-student-name').textContent = btn.dataset.name;
-                    document.getElementById('grade-modal').style.display = 'flex';
-                });
-            });
-        }
+        const filtered = studentsData.filter(est => {
+            const bySemester = !semester || est.semestre === semester;
+            const byCourse = !course || est.curso === course;
+            let byStatus = true;
+            if (status === 'passed') byStatus = est.average >= 70;
+            else if (status === 'failed') byStatus = est.average < 70;
+            return bySemester && byCourse && byStatus;
+        });
+        renderTable(filtered);
+    }
 
-        semesterSelect.addEventListener('change', applyFilters);
-        courseSelect.addEventListener('change', applyFilters);
-        statusSelect.addEventListener('change', applyFilters);
-
-        renderTable(studentsData);
-
-        document.querySelectorAll('.close-btn, .close-modal-btn').forEach(btn => {
+    function assignModalButtons() {
+        document.querySelectorAll('.edit-comment-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.getElementById('comment-modal').style.display = 'none';
-                document.getElementById('grade-modal').style.display = 'none';
+                document.getElementById('student-id').value = btn.dataset.id;
+                document.getElementById('student-name').textContent = btn.dataset.name;
+                document.getElementById('comment').value = btn.dataset.comment || '';
+                document.getElementById('comment-modal').style.display = 'flex';
             });
         });
 
-        document.getElementById('export-btn').addEventListener('click', () => {
-            alert('Exportando a PDF... (implementar con jsPDF)');
+        document.querySelectorAll('.edit-grade-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('grade-student-id').value = btn.dataset.id;
+                document.getElementById('grade-student-name').textContent = btn.dataset.name;
+                document.getElementById('grade-modal').style.display = 'flex';
+            });
         });
-    </script>
+    }
+
+    semesterSelect.addEventListener('change', applyFilters);
+    courseSelect.addEventListener('change', applyFilters);
+    statusSelect.addEventListener('change', applyFilters);
+
+    renderTable(studentsData);
+
+    document.querySelectorAll('.close-btn, .close-modal-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('comment-modal').style.display = 'none';
+            document.getElementById('grade-modal').style.display = 'none';
+        });
+    });
+
+    document.getElementById('export-btn').addEventListener('click', () => {
+        alert('Exportando a PDF... (implementar con jsPDF)');
+    });
+</script>
 </body>
 </html>
