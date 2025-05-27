@@ -1,66 +1,281 @@
 <?php
-include("conexion.php");
 
-function colorClass($nota) {
-    if (is_null($nota)) return '';
-    return $nota >= 70 ? 'green' : 'red';
+session_start();
+
+if (!isset($_SESSION['docente_id'])) {
+    header("Location: login_docente.php");
+    exit();
 }
 
-$sql = "SELECT a.id, a.nombre, a.semestre, a.curso, 
-               c.unidad1, c.unidad2, c.unidad3, c.promedio, c.comentario 
+$nombre = $_SESSION['nombre']; 
+
+$conexion = new mysqli("localhost", "root", "", "calificaciones_db");
+
+$sql = "SELECT a.id, a.nombre, a.semestre, a.curso, c.unidad1, c.unidad2, c.unidad3, 
+               c.promedio, c.comentario, c.comentario_u1, c.comentario_u2, c.comentario_u3
         FROM alumnos a
-        LEFT JOIN calificaciones c ON a.id = c.alumno_id";
-$result = $conn->query($sql);
+        JOIN calificaciones c ON a.id = c.alumno_id";
 
-$estudiantes = [];
-if ($result) {
-    while ($row = $result->fetch_assoc()) {
-        $estudiantes[] = [
-            'id' => $row['id'],
-            'name' => $row['nombre'],
-            'unit1' => (int)($row['unidad1'] ?? 0),
-            'unit2' => (int)($row['unidad2'] ?? 0),
-            'unit3' => (int)($row['unidad3'] ?? 0),
-            'average' => (int)($row['promedio'] ?? 0),
-            'comment' => $row['comentario'] ?? '',
-            'semestre' => (int)($row['semestre']),
-            'curso' => (int)($row['curso'])
-        ];
-    }
-}
+
+$resultado = $conexion->query($sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calificaciones Docente - CMT</title>
-    <link rel="stylesheet" href="calificacionesDocente.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        const studentsData = <?= json_encode($estudiantes); ?>;
-    </script>
+  <meta charset="UTF-8">
+  <title>Gestión de Calificaciones</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body { background-color: #1e1e1e; color: white; }
+    .table-dark th, .table-dark td { vertical-align: middle; }
+    .modal-content { color: black; }
+
+
+
+
+/* Estilos generales */
+        :root {
+            --background: #212121;
+            --foreground: #fafafa;
+            --primary: #c62828;
+            --primary-hover: #b71c1c;
+            --secondary: #424242;
+            --green: #2e7d32;
+            --amber: #ff8f00;
+            --red: #c62828;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background);
+            color: var(--foreground);
+        }
+        
+        header {
+    background: linear-gradient(to right, #d94228, #3f3c3e);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            color: white;
+            text-decoration: none;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+        
+        nav a:hover {
+            color: white;
+        }
+        
+        /* Estilos específicos para la página de calificaciones del docente */
+        .grades-section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .grades-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .grades-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .btn-secondary {
+            background-color: #555;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #444;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .select-container {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .select-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ddd;
+        }
+        
+        .select-input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 4px;
+            background-color: #333;
+            border: 1px solid #555;
+            color: white;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .select-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.3);
+        }
+        
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background-color: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .grades-table th,
+        .grades-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #555;
+        }
+        
+        .grades-table thead th {
+            background-color: #333;
+            font-weight: 600;
+            color: #eee;
+        }
+        
+        .grade-cell {
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            display: inline-block;
+            min-width: 2.5rem;
+        }
+        
+        .grade-high {
+            background-color: var(--green);
+            color: white;
+        }
+        
+        .grade-mid {
+            background-color: var(--amber);
+            color: white;
+        }
+        
+        .grade-low {
+            background-color: var(--red);
+            color: white;
+        }
+        
+        .comment-cell {
+            font-style: italic;
+            color: #bbb;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .action-cell button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .action-cell button:hover {
+            color: var(--primary-hover);
+        }
+
+
+  </style>
 </head>
 <body>
-<header>
-    <a href="index.html" class="logo">CMT</a>
+    <header>
+    <div class="logo">CMT</div>
     <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="InicioSesionDocente.html">Cerrar Sesión</a></li>
-        </ul>
+      <a href="Index.html#">Inicio</a>
+      <a href="https://www.tecsanpedro.edu.mx/sobre-nosotros/">Nosotros</a>
+      <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
     </nav>
-</header>
-
-<section class="grades-section">
-    <div class="grades-header">
-        <h1 class="grades-title">Calificaciones</h1>
-        <div class="action-buttons">
+    <div class="menu-icon">☰</div>
+  </header>
+<div class="container py-5">
+    <h1>Bienvenido, <?= htmlspecialchars($nombre) ?></h1>
+  <h2 class="mb-4">Calificaciones</h2>
+  <div class="action-buttons">
             <button class="btn btn-secondary" id="export-btn">
                 <i class="fas fa-file-export"></i> Exportar PDF
             </button>
-        </div>
+             </div>
     </div>
 
     <div class="filters">
@@ -95,156 +310,142 @@ if ($result) {
         </div>
     </div>
 
-    <table class="grades-table">
-        <thead>
-        <tr>
-            <th>Estudiante</th>
-            <th>Unidad 1</th>
-            <th>Unidad 2</th>
-            <th>Unidad 3</th>
-            <th>Promedio</th>
-            <th>Comentario</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody id="grades-body"></tbody>
-    </table>
-</section>
 
-<!-- Modal Comentario -->
-<div class="modal" id="comment-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Agregar comentario para <span id="student-name"></span></h2>
-            <button class="close-btn">&times;</button>
-        </div>
-        <form id="comment-form">
-            <input type="hidden" id="student-id">
-            <textarea id="comment" class="form-input" rows="4" placeholder="Escribe un comentario..."></textarea>
-            <div class="modal-footer">
-                <button type="button" class="btn close-modal-btn">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
-    </div>
+
+  <table class="table table-dark table-bordered">
+    <thead>
+      <tr>
+        <th>Estudiante</th>
+        <th>Unidad 1</th>
+        <th>Unidad 2</th>
+        <th>Unidad 3</th>
+        <th>Promedio</th>
+        <th>Comentario</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="grades-body">
+    <?php while ($row = $resultado->fetch_assoc()) {
+      echo "<tr>
+        <td>{$row['nombre']}</td>
+        <td>{$row['unidad1']}</td>
+        <td>{$row['unidad2']}</td>
+        <td>{$row['unidad3']}</td>
+        <td>{$row['promedio']}</td>
+        <td>{$row['comentario']}</td>
+        <td>
+          <button class='btn btn-sm btn-warning' onclick='abrirModal(" . json_encode($row) . ")'>✏️</button>
+        </td>
+      </tr>";
+    } ?>
+    </tbody>
+  </table>
 </div>
 
-<!-- Modal Calificación -->
-<div class="modal" id="grade-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Modificar calificación para <span id="grade-student-name"></span></h2>
-            <button class="close-btn">&times;</button>
+<!-- Modal -->
+<div class="modal fade" id="modalEditar" tabindex="-1">
+  <div class="modal-dialog">
+    <form class="modal-content" method="POST" action="actualizar_calificacion.php">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Calificaciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id" id="inputId">
+        <div class="mb-2">
+          <label>Unidad 1</label>
+          <input type="number" name="unidad1" id="inputUnidad1" class="form-control">
         </div>
-        <form id="grade-form">
-            <input type="hidden" id="grade-student-id">
-            <label for="unit-select">Unidad:</label>
-            <select id="unit-select" class="form-input">
-                <option value="1">Unidad 1</option>
-                <option value="2">Unidad 2</option>
-                <option value="3">Unidad 3</option>
-            </select>
-            <label for="new-grade">Nueva calificación:</label>
-            <input type="number" id="new-grade" class="form-input" min="0" max="100" required>
-            <label for="grade-comment">Comentario:</label>
-            <textarea id="grade-comment" class="form-input" rows="3"></textarea>
-            <div class="modal-footer">
-                <button type="button" class="btn close-modal-btn">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
-    </div>
+        <div class="mb-2">
+          <label>Unidad 2</label>
+          <input type="number" name="unidad2" id="inputUnidad2" class="form-control">
+        </div>
+        <div class="mb-2">
+          <label>Unidad 3</label>
+          <input type="number" name="unidad3" id="inputUnidad3" class="form-control">
+        </div>
+        <div class="mb-2">
+          <label>Comentario</label>
+          <textarea name="comentario" id="inputComentario" class="form-control"></textarea>
+        </div>
+        <div class="mb-2">
+  <label>Comentario Unidad 1</label>
+  <textarea name="comentario_u1" id="inputComentarioU1" class="form-control"></textarea>
+</div>
+<div class="mb-2">
+  <label>Comentario Unidad 2</label>
+  <textarea name="comentario_u2" id="inputComentarioU2" class="form-control"></textarea>
+</div>
+<div class="mb-2">
+  <label>Comentario Unidad 3</label>
+  <textarea name="comentario_u3" id="inputComentarioU3" class="form-control"></textarea>
 </div>
 
-<footer>
-    <div class="copyright">
-        &copy; 2023 CMT. Todos los derechos reservados.
-    </div>
-</footer>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
 
+
+<!-- Al final del body, ANTES de cargar scripts.js -->
 <script>
-    const semesterSelect = document.getElementById('semester-select');
-    const courseSelect = document.getElementById('course-select');
-    const statusSelect = document.getElementById('status-select');
-    const gradesBody = document.getElementById('grades-body');
-
-    function getColor(nota) {
-        if (nota === null || nota === 0) return '';
-        return nota >= 70 ? 'green' : 'red';
+// Convertir datos PHP a JSON de forma segura
+window.studentsData = <?php
+    $data = [];
+    $resultado->data_seek(0); // Reiniciar puntero si es necesario
+    while ($row = $resultado->fetch_assoc()) {
+        $data[] = [
+    'id' => (int)$row['id'],
+    'name' => htmlspecialchars($row['nombre'], ENT_QUOTES),
+    'unit1' => $row['unidad1'] !== null ? (float)$row['unidad1'] : null,
+    'unit2' => $row['unidad2'] !== null ? (float)$row['unidad2'] : null,
+    'unit3' => $row['unidad3'] !== null ? (float)$row['unidad3'] : null,
+    'average' => $row['promedio'] !== null ? (float)$row['promedio'] : null,
+    'comment' => htmlspecialchars($row['comentario'] ?? '', ENT_QUOTES),
+    'comentario_u1' => htmlspecialchars($row['comentario_u1'] ?? '', ENT_QUOTES),
+    'comentario_u2' => htmlspecialchars($row['comentario_u2'] ?? '', ENT_QUOTES),
+    'comentario_u3' => htmlspecialchars($row['comentario_u3'] ?? '', ENT_QUOTES),
+    'semestre' => (int)$row['semestre'],
+    'curso' => (int)$row['curso']
+];
     }
-
-    function renderTable(data) {
-        gradesBody.innerHTML = '';
-        data.forEach(est => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${est.name}</td>
-                <td class="${getColor(est.unit1)}">${est.unit1 || '—'}</td>
-                <td class="${getColor(est.unit2)}">${est.unit2 || '—'}</td>
-                <td class="${getColor(est.unit3)}">${est.unit3 || '—'}</td>
-                <td class="${getColor(est.average)}">${est.average || '—'}</td>
-                <td>${est.comment}</td>
-                <td class="action-cell">
-                    <button class="edit-comment-btn" data-id="${est.id}" data-name="${est.name}" data-comment="${est.comment}"><i class="fas fa-comment"></i></button>
-                    <button class="edit-grade-btn" data-id="${est.id}" data-name="${est.name}"><i class="fas fa-edit"></i></button>
-                </td>
-            `;
-            gradesBody.appendChild(row);
-        });
-        assignModalButtons();
-    }
-
-    function applyFilters() {
-        const semester = parseInt(semesterSelect.value);
-        const course = parseInt(courseSelect.value);
-        const status = statusSelect.value;
-
-        const filtered = studentsData.filter(est => {
-            const bySemester = !semester || est.semestre === semester;
-            const byCourse = !course || est.curso === course;
-            let byStatus = true;
-            if (status === 'passed') byStatus = est.average >= 70;
-            else if (status === 'failed') byStatus = est.average < 70;
-            return bySemester && byCourse && byStatus;
-        });
-        renderTable(filtered);
-    }
-
-    function assignModalButtons() {
-        document.querySelectorAll('.edit-comment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('student-id').value = btn.dataset.id;
-                document.getElementById('student-name').textContent = btn.dataset.name;
-                document.getElementById('comment').value = btn.dataset.comment || '';
-                document.getElementById('comment-modal').style.display = 'flex';
-            });
-        });
-
-        document.querySelectorAll('.edit-grade-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('grade-student-id').value = btn.dataset.id;
-                document.getElementById('grade-student-name').textContent = btn.dataset.name;
-                document.getElementById('grade-modal').style.display = 'flex';
-            });
-        });
-    }
-
-    semesterSelect.addEventListener('change', applyFilters);
-    courseSelect.addEventListener('change', applyFilters);
-    statusSelect.addEventListener('change', applyFilters);
-
-    renderTable(studentsData);
-
-    document.querySelectorAll('.close-btn, .close-modal-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('comment-modal').style.display = 'none';
-            document.getElementById('grade-modal').style.display = 'none';
-        });
-    });
-
-    document.getElementById('export-btn').addEventListener('click', () => {
-        alert('Exportando a PDF... (implementar con jsPDF)');
-    });
+    echo json_encode($data);
+?>;
 </script>
+<script src="scripts.js" defer></script>
+
+
+
+<!-- Agrega esto en el <head> o antes de cerrar el <body> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="scripts.js"></script>
+<script>
+
+function abrirModal(data) {
+  document.getElementById('inputId').value = data.id;
+  document.getElementById('inputUnidad1').value = data.unidad1 ?? '';
+  document.getElementById('inputUnidad2').value = data.unidad2 ?? '';
+  document.getElementById('inputUnidad3').value = data.unidad3 ?? '';
+  document.getElementById('inputComentario').value = data.comentario ?? '';
+  document.getElementById('inputComentarioU1').value = data.comentario_u1 ?? '';
+  document.getElementById('inputComentarioU2').value = data.comentario_u2 ?? '';
+  document.getElementById('inputComentarioU3').value = data.comentario_u3 ?? '';
+
+  const modal = new bootstrap.Modal(document.getElementById('modalEditar'));
+  modal.show();
+}
+
+</script>
+<script>
+  // Para usar jsPDF sin conflictos
+  const { jsPDF } = window.jspdf;
+</script>
+
 </body>
 </html>

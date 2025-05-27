@@ -29,14 +29,14 @@ $calificaciones = $result->fetch_assoc();
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">CMT</a>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="cerrarSesion.php">Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="logo">CMT</div>
+    <nav>
+      <a href="Index.html#">Inicio</a>
+      <a href="https://www.tecsanpedro.edu.mx/sobre-nosotros/">Nosotros</a>
+      <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
+    </nav>
+    <div class="menu-icon">☰</div>
+  </header>
 
     <section class="grades-section">
         <h1>Bienvenido, <?= htmlspecialchars($nombre) ?></h1>
@@ -55,21 +55,25 @@ $calificaciones = $result->fetch_assoc();
                 <tr>
                     <td>Unidad 1</td>
                     <td><?= $calificaciones['unidad1'] ?></td>
-                    <td><?= htmlspecialchars($calificaciones['comentario']) ?></td>
+                    <td><?= htmlspecialchars($calificaciones['comentario_u1']) ?></td>
                 </tr>
                 <tr>
                     <td>Unidad 2</td>
                     <td><?= $calificaciones['unidad2'] ?></td>
+                    <td><?= htmlspecialchars($calificaciones['comentario_u2']) ?></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Unidad 3</td>
                     <td><?= $calificaciones['unidad3'] ?></td>
+                    <td><?= htmlspecialchars($calificaciones['comentario_u3']) ?></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td><strong>Promedio</strong></td>
                     <td><?= $calificaciones['promedio'] ?></td>
+                    <td><?= htmlspecialchars($calificaciones['comentario']) ?></td>
+                    
                     <td></td>
                 </tr>
             </tbody>

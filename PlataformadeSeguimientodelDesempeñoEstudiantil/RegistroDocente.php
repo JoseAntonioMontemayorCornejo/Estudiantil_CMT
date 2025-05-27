@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sss", $nombre, $correo, $contrasena);
 
     if ($stmt->execute()) {
-        echo "✅ Docente registrado correctamente.";
+        echo "<script>alert('✅ Docente registrado correctamente.');</script>";
     } else {
-        echo "❌ Error al registrar docente: " . $stmt->error;
+        echo "<script>alert('❌ Error al registrar docente: " . $stmt->error . "');</script>";
     }
 
     $stmt->close();
@@ -27,20 +27,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Registro de Docente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css"> <!-- Asegúrate de tener este archivo CSS -->
 </head>
 <body>
-    <h2>Registrar Docente</h2>
-    <form action="registroDocente.php" method="POST">
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" required><br><br>
 
-        <label>Correo:</label><br>
-        <input type="email" name="correo" required><br><br>
+    <!-- Header con logo y navegación -->
+    <header>
+        <div class="logo">Mi Plataforma</div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="login.html">Iniciar Sesión</a>
+            <a href="registroDocente.php">Registrar Docente</a>
+        </nav>
+        <div class="menu-icon">&#9776;</div>
+    </header>
 
-        <label>Contraseña:</label><br>
-        <input type="password" name="contrasena" required><br><br>
+    <!-- Contenedor del formulario -->
+    <div class="login-container">
+        <div class="form-container">
+            <h1>Registro de Docente</h1>
+            <form action="registroDocente.php" method="POST">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
 
-        <button type="submit">Registrar</button>
-    </form>
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" required>
+
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
+
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+
+        <!-- Imagen decorativa -->
+        <div class="lion-image">
+            <img src="leon.png" alt="León decorativo">
+        </div>
+    </div>
+
 </body>
 </html>

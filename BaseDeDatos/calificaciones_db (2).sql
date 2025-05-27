@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2025 a las 22:28:50
+-- Tiempo de generación: 27-05-2025 a las 05:47:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -126,39 +126,42 @@ CREATE TABLE `calificaciones` (
   `unidad2` int(11) DEFAULT 0,
   `unidad3` int(11) DEFAULT 0,
   `promedio` int(11) DEFAULT 0,
-  `comentario` text DEFAULT NULL
+  `comentario` text DEFAULT NULL,
+  `comentario_u1` text DEFAULT NULL,
+  `comentario_u2` text DEFAULT NULL,
+  `comentario_u3` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `calificaciones`
 --
 
-INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`, `promedio`, `comentario`) VALUES
-(2, 2, 85, 90, 95, 0, 'Buen desempeños'),
-(3, 3, 70, 80, 75, 0, 'Puede mejorar en unidad 3'),
-(6, 6, 60, 65, 70, 0, 'Regular'),
-(7, 7, 100, 100, 95, 0, 'Excelente trabajos'),
-(8, 8, 50, 55, 60, 0, 'Debe esforzarse más'),
-(9, 9, 90, 85, 90, 0, 'Buen rendimiento general'),
-(10, 10, 0, 0, 0, 0, NULL),
-(11, 11, 88, 92, 85, 0, 'Participa activamente'),
-(12, 12, 75, 78, 72, 0, 'Constante en sus entregas'),
-(13, 13, 40, 45, 50, 0, 'Debe mejorar bastante'),
-(14, 14, 95, 90, 88, 0, 'Muy buen trabajo'),
-(15, 15, 82, 84, 86, 0, 'Buen progreso'),
-(16, 16, 67, 60, 63, 0, 'Le falta repasar teoría'),
-(17, 17, 91, 94, 89, 0, 'Excelente participación'),
-(18, 18, 55, 50, 52, 0, 'Debe asistir más a clase'),
-(19, 19, 73, 75, 78, 0, 'Buen avance'),
-(20, 20, 89, 85, 87, 0, 'Responsable y puntual'),
-(21, 21, 60, 65, 60, 0, 'Rinde mejor en práctica'),
-(22, 22, 70, 68, 75, 0, 'Mejoró en unidad 3'),
-(23, 23, 95, 93, 97, 0, 'Trabajo excelente'),
-(24, 24, 78, 70, 74, 0, 'Regular con buenos momentos'),
-(25, 25, 65, 60, 58, 0, 'Debe entregar tareas'),
-(26, 26, 88, 84, 85, 0, 'Buen manejo del contenido'),
-(27, 27, 90, 90, 90, 0, 'Muy buen nivel'),
-(28, 28, 0, 0, 0, 0, NULL);
+INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`, `promedio`, `comentario`, `comentario_u1`, `comentario_u2`, `comentario_u3`) VALUES
+(2, 2, 100, 100, 100, 100, 'Buen alumno', 'Exelente1', 'Exelente23', 'Exelente34'),
+(3, 3, 100, 100, 100, 100, 'Puede mejorar en unidad 10', 'Exelente3', 'Exelente4', 'Exelente5'),
+(6, 6, 90, 90, 90, 90, 'Regulare', '', '', ''),
+(7, 7, 100, 100, 95, 98, 'Excelente trabajos', '', '', ''),
+(8, 8, 50, 55, 60, 55, 'Debe esforzarse más', '', '', ''),
+(9, 9, 90, 85, 90, 88, 'Buen rendimiento general', '', '', ''),
+(10, 10, 100, 100, 100, 100, 'hola', 'si', 'os', 'ksk'),
+(11, 11, 96, 99, 99, 98, 'siuuuu', 'buen alumno', 'Exelente', 'Exelentee'),
+(12, 12, 75, 78, 72, 75, 'Constante en sus entregas', '', '', ''),
+(13, 13, 40, 45, 50, 45, 'Debe mejorar bastante', '', '', ''),
+(14, 14, 95, 90, 88, 91, 'Muy buen trabajo', '', '', ''),
+(15, 15, 100, 100, 100, 100, 'Buen progresox', '1', '2', '3'),
+(16, 16, 67, 60, 63, 63, 'Le falta repasar teoría', '', '', ''),
+(17, 17, 91, 94, 89, 91, 'Excelente participación', '', '', ''),
+(18, 18, 55, 50, 52, 52, 'Debe asistir más a clase', '', '', ''),
+(19, 19, 73, 75, 78, 75, 'Buen avance', '', '', ''),
+(20, 20, 89, 85, 87, 87, 'Responsable y puntual', '', '', ''),
+(21, 21, 60, 65, 60, 62, 'Rinde mejor en práctica', '', '', ''),
+(22, 22, 70, 68, 75, 71, 'Mejoró en unidad 3', '', '', ''),
+(23, 23, 95, 93, 97, 95, 'Trabajo excelente', '', '', ''),
+(24, 24, 100, 100, 100, 100, 'r', 'e', 'g', 'i'),
+(25, 25, 65, 60, 58, 61, 'Debe entregar tareas', '', '', ''),
+(26, 26, 88, 84, 85, 86, 'Buen manejo del contenido', '', '', ''),
+(27, 27, 90, 90, 90, 90, 'Muy buen nivel', '', '', ''),
+(28, 28, 100, 78, 98, 92, 'Siu', 'Exelente', 'Regualar', 'Mejor denuevo');
 
 -- --------------------------------------------------------
 

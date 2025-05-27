@@ -4,37 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro de Alumno</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css"> <!-- Asegúrate de tener este archivo CSS -->
 </head>
 <body>
-    <h2>Registro de Alumno</h2>
-    <form action="registroAlumnoConexion.php" method="POST">
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required><br>
 
-        <label>Correo:</label>
-        <input type="email" name="correo" required><br>
+    <!-- Header con logo y navegación -->
+    <header>
+        <div class="logo">CMT</div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="login.html">Iniciar Sesión</a>
+            <a href="registroAlumno.html">Registrarse</a>
+        </nav>
+        <div class="menu-icon">&#9776;</div>
+    </header>
 
-        <label>Contraseña:</label>
-        <input type="password" name="contrasena" required><br>
+    <!-- Contenedor del formulario de registro -->
+    <div class="login-container">
+        <div class="form-container">
+            <h1>Registro de Alumno</h1>
+            <form action="registroAlumnoConexion.php" method="POST">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
 
-        <label>Semestre:</label>
-        <select name="semestre" required>
-            <option value="1">1er Semestre</option>
-            <option value="2">3er Semestre</option>
-            <option value="3">5to Semestre</option>
-            <option value="4">7mo Semestre</option>
-        </select><br>
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" required>
 
-        <label>Curso:</label>
-        <select name="curso" required>
-            <option value="1">Lenguajes de interfaz 6C</option>
-            <option value="2">Programación de base de datos</option>
-            <option value="3">Graficación</option>
-            <option value="4">Lenguajes autómatas I</option>
-            <option value="5">Taller de investigación</option>
-        </select><br>
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
 
-        <button type="submit">Registrarse</button>
-    </form>
+                <label for="semestre">Semestre:</label>
+                <select id="semestre" name="semestre" required>
+                    <option value="">Seleccione...</option>
+                    <option value="1">1er Semestre</option>
+                    <option value="2">3er Semestre</option>
+                    <option value="3">5to Semestre</option>
+                    <option value="4">7mo Semestre</option>
+                </select>
+
+                <label for="curso">Curso:</label>
+                <select id="curso" name="curso" required>
+                    <option value="">Seleccione...</option>
+                    <option value="1">Lenguajes de interfaz 6C</option>
+                    <option value="2">Programación de base de datos</option>
+                    <option value="3">Graficación</option>
+                    <option value="4">Lenguajes autómatas I</option>
+                    <option value="5">Taller de investigación</option>
+                </select>
+
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+
+        <!-- Imagen decorativa -->
+        <div class="lion-image">
+            <img src="leon.png" alt="León decorativo">
+        </div>
+    </div>
+
 </body>
 </html>
