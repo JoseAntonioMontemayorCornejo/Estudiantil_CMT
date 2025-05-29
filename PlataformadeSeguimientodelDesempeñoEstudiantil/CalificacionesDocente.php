@@ -11,13 +11,59 @@ $nombre = $_SESSION['nombre'];
 
 $conexion = new mysqli("localhost", "root", "", "calificaciones_db");
 
+$materia_id = $_GET['materia_id'] ?? null;
+
+// Obtener materias asignadas al docente
+$docente_id = $_SESSION['docente_id'];
+
+$materiasQuery = "SELECT m.id, m.nombre 
+                  FROM materias m 
+                  INNER JOIN docente_materia dm ON m.id = dm.materia_id 
+                  WHERE dm.docente_id = ?";
+$stmtMaterias = $conexion->prepare($materiasQuery);
+$stmtMaterias->bind_param("i", $docente_id);
+$stmtMaterias->execute();
+$materiasResult = $stmtMaterias->get_result();
+
+// Si no hay materia seleccionada, redirige a la primera materia asignada
+if (!$materia_id && $materiasResult->num_rows > 0) {
+    $primeraMateria = $materiasResult->fetch_assoc();
+    header("Location: calificacionesDocente.php?materia_id=" . $primeraMateria['id']);
+    exit;
+}
+
+// Si no hay materias asignadas, muestra mensaje
+if (!$materia_id) {
+    echo "<div class='container text-center text-warning mt-4'>No tienes materias asignadas.</div>";
+    exit;
+}
+
+
 $sql = "SELECT a.id, a.nombre, a.semestre, a.curso, c.unidad1, c.unidad2, c.unidad3, 
                c.promedio, c.comentario, c.comentario_u1, c.comentario_u2, c.comentario_u3
         FROM alumnos a
-        JOIN calificaciones c ON a.id = c.alumno_id";
+        JOIN calificaciones c ON a.id = c.alumno_id
+        WHERE c.materia_id = ?";
+
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $materia_id);
+$stmt->execute();
+$resultado = $stmt->get_result();
 
 
-$resultado = $conexion->query($sql);
+$docente_id = $_SESSION['docente_id'];
+
+$materiasQuery = "SELECT m.id, m.nombre 
+                  FROM materias m 
+                  INNER JOIN docente_materia dm ON m.id = dm.materia_id 
+                  WHERE dm.docente_id = ?";
+$stmtMaterias = $conexion->prepare($materiasQuery);
+$stmtMaterias->bind_param("i", $docente_id);
+$stmtMaterias->execute();
+$materiasResult = $stmtMaterias->get_result();
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -290,16 +336,24 @@ $resultado = $conexion->query($sql);
             </select>
         </div>
         <div class="select-container">
-            <label for="course-select" class="select-label">Curso:</label>
-            <select id="course-select" class="select-input">
-                <option value="">Seleccionar curso</option>
-                <option value="1" selected>Lenguajes de interfaz 6C</option>
-                <option value="2">Programación de base de datos</option>
-                <option value="3">Graficación</option>
-                <option value="4">Lenguajes autómatas I</option>
-                <option value="5">Taller de investigación</option>
-            </select>
-        </div>
+    <label for="materias-select" class="select-label">Materia:</label>
+    <select id="materias-select" class="select-input">
+        <?php
+if ($materiasResult->num_rows > 0) {
+    echo '<option value="">Seleccionar materia</option>';
+    while ($materia = $materiasResult->fetch_assoc()) {
+        $selected = ($materia_id == $materia['id']) ? 'selected' : '';
+        echo "<option value='{$materia['id']}' $selected>{$materia['nombre']}</option>";
+    }
+} else {
+    echo '<option value="">No tienes materias asignadas</option>';
+}
+?>
+
+    </select>
+</div>
+
+        
         <div class="select-container">
             <label for="status-select" class="select-label">Estado:</label>
             <select id="status-select" class="select-input">
@@ -348,10 +402,12 @@ $resultado = $conexion->query($sql);
     <form class="modal-content" method="POST" action="actualizar_calificacion.php">
       <div class="modal-header">
         <h5 class="modal-title">Editar Calificaciones</h5>
+        <input type="hidden" name="id" id="inputId">
+<input type="hidden" name="materia_id" value="<?= htmlspecialchars($_GET['materia_id'] ?? '') ?>">
+
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <input type="hidden" name="id" id="inputId">
         <div class="mb-2">
           <label>Unidad 1</label>
           <input type="number" name="unidad1" id="inputUnidad1" class="form-control">
@@ -446,6 +502,31 @@ function abrirModal(data) {
   // Para usar jsPDF sin conflictos
   const { jsPDF } = window.jspdf;
 </script>
+<script>
+document.getElementById('materias-select').addEventListener('change', function () {
+    const materia_id = this.value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('materia_id', materia_id);
+    window.location.href = url;
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const materiaSelect = document.getElementById('materias-select');
+  if (materiaSelect) {
+    materiaSelect.addEventListener('change', function () {
+      const materia_id = this.value;
+      if (materia_id) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('materia_id', materia_id);
+        window.location.href = url;
+      }
+    });
+  }
+});
+</script>
+
 
 </body>
 </html>
