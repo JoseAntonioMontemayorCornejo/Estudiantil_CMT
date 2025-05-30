@@ -39,7 +39,7 @@ if (!$materia_id) {
 }
 
 
-$sql = "SELECT a.id, a.nombre, a.semestre, a.curso, c.unidad1, c.unidad2, c.unidad3, 
+$sql = "SELECT a.id, a.nombre, c.unidad1, c.unidad2, c.unidad3, 
                c.promedio, c.comentario, c.comentario_u1, c.comentario_u2, c.comentario_u3
         FROM alumnos a
         JOIN calificaciones c ON a.id = c.alumno_id
@@ -464,9 +464,7 @@ window.studentsData = <?php
     'comment' => htmlspecialchars($row['comentario'] ?? '', ENT_QUOTES),
     'comentario_u1' => htmlspecialchars($row['comentario_u1'] ?? '', ENT_QUOTES),
     'comentario_u2' => htmlspecialchars($row['comentario_u2'] ?? '', ENT_QUOTES),
-    'comentario_u3' => htmlspecialchars($row['comentario_u3'] ?? '', ENT_QUOTES),
-    'semestre' => (int)$row['semestre'],
-    'curso' => (int)$row['curso']
+    'comentario_u3' => htmlspecialchars($row['comentario_u3'] ?? '', ENT_QUOTES)
 ];
     }
     echo json_encode($data);

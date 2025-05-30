@@ -4,7 +4,7 @@ include("conexion.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['nombre'];
     $correo = $_POST['correo'];
-    $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT); // Encriptar contraseña
+    $contrasena = $_POST['contrasena']; // ❌ Ya no se encripta
 
     $sql = "INSERT INTO docentes (nombre, correo, contrasena) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 
 <!-- HTML del formulario -->
 <!DOCTYPE html>
@@ -60,10 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit">Registrar</button>
             </form>
         </div>
-
-        <!-- Imagen decorativa -->
         <div class="lion-image">
-            <img src="leon.png" alt="León decorativo">
+            <img src="Imagenes/LogoTec.png" alt="León decorativo">
         </div>
     </div>
 

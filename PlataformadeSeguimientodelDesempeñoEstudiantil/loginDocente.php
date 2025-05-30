@@ -2,8 +2,8 @@
 include("conexion.php");
 session_start();
 
-$correo = $_POST['correo'];
-$contrasena = $_POST['contrasena'];
+$correo = trim($_POST['correo']);
+$contrasena = trim($_POST['contrasena']);
 
 // Buscar docente por correo
 $sql = "SELECT * FROM docentes WHERE correo = ?";
@@ -15,8 +15,8 @@ $resultado = $stmt->get_result();
 if ($resultado->num_rows === 1) {
     $usuario = $resultado->fetch_assoc();
 
-    // Verificar contraseña encriptada
-    if (password_verify($contrasena, $usuario['contrasena'])) {
+    // Comparar contraseñas directamente (sin cifrado)
+    if ($contrasena === $usuario['contrasena']) {
         $_SESSION['docente_id'] = $usuario['id'];
         $_SESSION['nombre'] = $usuario['nombre'];
         header("Location: calificacionesDocente.php");
