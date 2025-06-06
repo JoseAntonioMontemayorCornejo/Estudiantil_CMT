@@ -551,3 +551,16 @@ body { background-color: #1e1e1e; color: white; }
     padding: 15px;
   }
 }
+
+
+
+
+.alerta-mensaje {
+    background-color: #f0f0f0;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}

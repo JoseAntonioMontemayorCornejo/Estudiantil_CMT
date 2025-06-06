@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-include("conexion.php");
+include_once(__DIR__ . "/../../includes/conexion.php");
 
 if (!isset($_POST['id'], $_POST['comentario'])) {
     echo json_encode(['success' => false, 'message' => 'Faltan datos.']);

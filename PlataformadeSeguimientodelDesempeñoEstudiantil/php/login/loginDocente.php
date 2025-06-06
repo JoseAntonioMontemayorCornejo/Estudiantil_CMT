@@ -1,6 +1,8 @@
 <?php
-include("conexion.php");
+include_once(__DIR__ . "/../../includes/conexion.php");
 session_start();
+
+header('Content-Type: application/json');
 
 $correo = trim($_POST['correo']);
 $contrasena = trim($_POST['contrasena']);
@@ -15,16 +17,24 @@ $resultado = $stmt->get_result();
 if ($resultado->num_rows === 1) {
     $usuario = $resultado->fetch_assoc();
 
-    // Comparar contraseñas directamente (sin cifrado)
     if ($contrasena === $usuario['contrasena']) {
         $_SESSION['docente_id'] = $usuario['id'];
         $_SESSION['nombre'] = $usuario['nombre'];
-        header("Location: calificacionesDocente.php");
-        exit();
+
+        echo json_encode([
+            'success' => true,
+            'redirect' => 'php/calificaciones/calificacionesDocente.php'
+        ]);
     } else {
-        echo "Contraseña incorrecta.";
+        echo json_encode([
+            'success' => false,
+            'message' => 'Contraseña incorrecta.'
+        ]);
     }
 } else {
-    echo "Correo no encontrado.";
+    echo json_encode([
+        'success' => false,
+        'message' => 'Correo no encontrado.'
+    ]);
 }
 ?>

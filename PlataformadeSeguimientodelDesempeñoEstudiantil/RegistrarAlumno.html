@@ -5,26 +5,26 @@
     <meta charset="UTF-8">
     <title>Registro de Alumno</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="estilos.css"> <!-- Asegúrate de tener este archivo CSS -->
+    <link rel="stylesheet" href="assets/css/estilos.css">
 </head>
 <body>
 
-    <!-- Header con logo y navegación -->
     <header>
         <div class="logo">CMT</div>
         <nav>
             <a href="index.html">Inicio</a>
-            <a href="login.html">Iniciar Sesión</a>
+            <a href="Nosotros.html">Nosotros</a>
             <a href="registroAlumno.html">Registrarse</a>
         </nav>
         <div class="menu-icon">&#9776;</div>
     </header>
 
-    <!-- Contenedor del formulario de registro -->
     <div class="login-container">
         <div class="form-container">
             <h1>Registro de Alumno</h1>
-            <form action="registroAlumnoConexion.php" method="POST">
+            <form id="formRegistroAlumno">
+                <div id="mensaje" style="margin-top: 10px; font-weight: bold;"></div>
+
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required>
 
@@ -34,35 +34,66 @@
                 <label for="contrasena">Contraseña:</label>
                 <input type="password" id="contrasena" name="contrasena" required>
 
-
                 <label for="materia_id">Materia:</label>
-<select id="materia_id" name="materia_id" required>
-    <option value="">Seleccione una materia...</option>
-    <option value="1">Fundamentos de Programación</option>
-    <option value="2">Métodos Numéricos</option>
-    <option value="3">Programación Orientada a Objetos</option>
-    <option value="4">Fundamentos de Software</option>
-    <option value="5">Graficación</option>
-    <option value="6">Lenguajes Autómatas</option>
-    <option value="7">Lenguajes Autómatas 2</option>
-    <option value="8">Contabilidad</option>
-    <option value="9">Simulación</option>
-    <option value="10">Redes de Computadora</option>
-    <option value="11">Programación de Base de Datos</option>
-    <option value="12">Lenguajes de Interfaz</option>
-    <option value="13">Cálculo Integral</option>
-    <option value="14">Álgebra Lineal</option>
-</select>
+                <select id="materia_id" name="materia_id" required>
+                    <option value="">Seleccione una materia...</option>
+                    <option value="1">Fundamentos de Programación</option>
+                    <option value="2">Métodos Numéricos</option>
+                    <option value="3">Programación Orientada a Objetos</option>
+                    <option value="4">Fundamentos de Software</option>
+                    <option value="5">Graficación</option>
+                    <option value="6">Lenguajes Autómatas</option>
+                    <option value="7">Lenguajes Autómatas 2</option>
+                    <option value="8">Contabilidad</option>
+                    <option value="9">Simulación</option>
+                    <option value="10">Redes de Computadora</option>
+                    <option value="11">Programación de Base de Datos</option>
+                    <option value="12">Lenguajes de Interfaz</option>
+                    <option value="13">Cálculo Integral</option>
+                    <option value="14">Álgebra Lineal</option>
+                </select>
 
                 <button type="submit">Registrarse</button>
             </form>
         </div>
 
-        <!-- Imagen decorativa -->
         <div class="lion-image">
-            <img src="Imagenes/LogoTec.png" alt="León decorativo">
+            <img src="assets/img/LogoTec.png" alt="León decorativo">
         </div>
     </div>
+
+    <!-- Script JS -->
+    <script>
+    document.getElementById('formRegistroAlumno').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+        const formData = new FormData(form);
+
+        fetch('php/registro/registroAlumnoConexion.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.text())
+        .then(data => {
+            const mensaje = document.getElementById('mensaje');
+            mensaje.textContent = data;
+
+            if (data.toLowerCase().includes("registrado")) {
+                mensaje.style.color = "green";
+                form.reset();
+            } else {
+                mensaje.style.color = "red";
+            }
+        })
+        .catch(error => {
+            const mensaje = document.getElementById('mensaje');
+            mensaje.textContent = "❌ Error al registrar alumno.";
+            mensaje.style.color = "red";
+            console.error('Error:', error);
+        });
+    });
+    </script>
 
 </body>
 </html>

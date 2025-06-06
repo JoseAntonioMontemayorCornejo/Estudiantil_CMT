@@ -3,18 +3,22 @@ session_start(); // Inicia sesión para acceder a variables de sesión
 
 // Verifica que el alumno haya iniciado sesión
 if (!isset($_SESSION['alumno_id'])) {
-    header("Location: InicioSesionAlumno.html"); // Redirige al login si no hay sesión activa
+    header("Location:InicioSesionAlumno.html"); // Redirige al login si no hay sesión activa
     exit();
 }
 
-include("conexion.php"); // Incluye el archivo de conexión a la base de datos
+include_once(__DIR__ . "/../../includes/conexion.php"); // Incluye el archivo de conexión a la base de datos
 
 // Obtiene el ID y nombre del alumno desde la sesión
 $alumnoId = $_SESSION['alumno_id'];
 $nombre = $_SESSION['nombre'];
 
 // Prepara y ejecuta una consulta para obtener las calificaciones del alumno
-$sql = "SELECT * FROM calificaciones WHERE alumno_id = ?";
+$sql = "SELECT c.*, m.nombre AS materia 
+        FROM calificaciones c 
+        JOIN materias m ON c.materia_id = m.id 
+        WHERE c.alumno_id = ?";
+
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $alumnoId); // "i" indica que el parámetro es un entero
 $stmt->execute();
@@ -32,14 +36,14 @@ $calificaciones = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title>Calificaciones del Alumno</title>
-    <link rel="stylesheet" href="calificacionesDocente.css"> <!-- Estilos compartidos -->
+    <link rel="stylesheet" href="../../assets/css/calificacionesDocente.css"> <!-- Estilos compartidos -->
 </head>
 <body>
     <header>
         <div class="logo">CMT</div>
         <nav>
             <a href="Index.html#">Inicio</a>
-            <a href="https://www.tecsanpedro.edu.mx/sobre-nosotros/">Nosotros</a>
+            <a href="Nosotros.html">Nosotros</a>
             <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
         </nav>
         <div class="menu-icon">☰</div> <!-- Ícono de menú para diseño responsivo -->
@@ -47,6 +51,8 @@ $calificaciones = $result->fetch_assoc();
 
     <section class="grades-section">
         <h1>Bienvenido, <?= htmlspecialchars($nombre) ?></h1> <!-- Muestra el nombre del alumno -->
+        <h2>Materia: <?= htmlspecialchars($calificaciones['materia']) ?></h2>
+
         <h2>Calificaciones</h2>
 
         <!-- Verifica si hay calificaciones registradas -->
@@ -71,21 +77,18 @@ $calificaciones = $result->fetch_assoc();
                     <td>Unidad 2</td>
                     <td><?= $calificaciones['unidad2'] ?></td>
                     <td><?= htmlspecialchars($calificaciones['comentario_u2']) ?></td>
-                    <td></td> <!-- Esta celda parece innecesaria -->
                 </tr>
                 <!-- Unidad 3 -->
                 <tr>
                     <td>Unidad 3</td>
                     <td><?= $calificaciones['unidad3'] ?></td>
                     <td><?= htmlspecialchars($calificaciones['comentario_u3']) ?></td>
-                    <td></td> <!-- Esta celda también puede eliminarse -->
                 </tr>
                 <!-- Promedio final -->
                 <tr>
                     <td><strong>Promedio</strong></td>
                     <td><?= $calificaciones['promedio'] ?></td>
                     <td><?= htmlspecialchars($calificaciones['comentario']) ?></td>
-                    <td></td> <!-- Celda vacía innecesaria -->
                 </tr>
             </tbody>
         </table>

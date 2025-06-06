@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-05-2025 a las 08:12:56
+-- Tiempo de generación: 06-06-2025 a las 07:38:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -113,7 +113,9 @@ INSERT INTO `alumnos` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (73, 'Jesus Montemayor Cornejo', 'jesus@gmail.com', '1234'),
 (74, 'Jhon Nolan', 'Nolan123@tecsanpedro.edu.mx', '1234567890'),
 (75, 'Angel Garcia', 'Angel@gmail.com', '1234'),
-(76, 'Luis Diego Barajas', 'Luis@gmail.com', '1234');
+(76, 'Luis Diego Barajas', 'Luis@gmail.com', '1234'),
+(77, 'Pablo Perez', 'perez@gmail.com', '1234'),
+(78, 'Cristian Ramirez', 'cristian@tecsanpedro.edu.mx', '1234');
 
 -- --------------------------------------------------------
 
@@ -149,7 +151,7 @@ INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`
 (7, 7, 100, 100, 95, 98, 'Excelente trabajos', '', '', '', 2),
 (8, 8, 50, 55, 60, 55, 'Debe esforzarse más', '', '', '', 1),
 (9, 9, 90, 85, 90, 88, 'Buen rendimiento general', '', '', '', 2),
-(10, 10, 100, 100, 100, 100, 'Buena', 'si', 'os', 'ksk', 3),
+(10, 10, 100, 100, 100, 100, 'Exelente', 'Buen alumno', 'Entrego todo correctamente', 'Le fue exelente', 3),
 (11, 11, 96, 99, 99, 98, 'siuuuu', 'buen alumno', 'Exelente', 'Exelentee', 5),
 (12, 12, 75, 78, 72, 75, 'Constante en sus entregas', '', '', '', 2),
 (13, 13, 40, 45, 50, 45, 'Debe mejorar bastante', '', '', '', 3),
@@ -163,7 +165,7 @@ INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`
 (21, 21, 60, 65, 60, 62, 'Rinde mejor en práctica', '', '', '', 1),
 (22, 22, 70, 68, 75, 71, 'Mejoró en unidad 3', '', '', '', 2),
 (23, 23, 95, 93, 97, 95, 'Trabajo excelente', '', '', '', 3),
-(24, 24, 100, 100, 100, 100, 'r', 'e', 'g', 'i', 3),
+(24, 24, 100, 100, 100, 100, 'Exelente alumna', 'e', 'g', 'i', 3),
 (25, 25, 65, 60, 58, 61, 'Debe entregar tareas', '', '', '', 5),
 (26, 26, 88, 84, 85, 86, 'Buen manejo del contenido', '', '', '', 1),
 (27, 27, 90, 90, 90, 90, 'Muy buen nivel', '', '', '', 5),
@@ -214,8 +216,10 @@ INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`
 (72, 172, 87, 72, 79, 79, 'Auto-generado', 'Comentario U1', 'Comentario U2', 'Comentario U3', 6),
 (73, 73, 67, 96, 89, 84, 'Auto-generado', 'Comentario U1', 'Comentario U2', 'Comentario U3', 2),
 (74, 174, 95, 71, 95, 87, 'Auto-generado', 'Comentario U1', 'Comentario U2', 'Comentario U3', 3),
-(75, 75, 100, 0, 50, 50, 'dd', 'fg', 'er2', 'fds', 3),
-(76, 76, 0, 0, 0, 0, 'No asistió a ninguna clase', 'No entrego nada ni entro', 'No entrego nada ni entro', 'No entrego nada ni entro', 1);
+(75, 75, 100, 0, 50, 50, 'Bajo su  promedio rapidamente', 'Exelente entrego todo en forma', 'No asistio ni entrego nada', 'No entraba a la mayoria de clases', 3),
+(76, 76, 76, 34, 90, 67, 'No entro a ninguna clase', 'Le fue mal en el examen', 'No entrego nada y entro a clases', 'Mejoro mucho', 1),
+(77, 77, 100, 70, 40, 70, 'Vale queso', 'Buen estudiante', 'Pasando', 'Se desvió el compañero', 6),
+(78, 78, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 14);
 
 -- --------------------------------------------------------
 
@@ -242,7 +246,13 @@ INSERT INTO `docentes` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (5, 'Omar Elio', 'Omar@gmail.com', '1234'),
 (6, 'Oscar Fabian Ramos', 'Oscar@gmail.com', '1234'),
 (7, 'Gabriela Camacho', 'Gabriela@gmail.com', '1234'),
-(8, 'Niria Gonzalez', 'Niria@gmail.com', '1234');
+(8, 'Niria Gonzalez', 'Niria@gmail.com', '1234'),
+(9, 'Pablo Ulises', 'Pablo123@gmail.com', '1234'),
+(10, 'Darka Montemayor', 'Darka@tecsanpedro.edu.mx', '1234'),
+(11, 'Jesus Morales', 'morales@tecsanpedro.edu.mx', '1234'),
+(12, 'Ulises Trujillo', 'trujillo@tecsanpedro.edu.mx', '1234'),
+(14, 'Mario Serrato', 'mario@tecsanpedro.edu.mx', '1234'),
+(18, 'Oscar Ochoa', 'oscar@tecsanpedro.edu.mx', '1234');
 
 -- --------------------------------------------------------
 
@@ -276,7 +286,13 @@ INSERT INTO `docente_materia` (`docente_id`, `materia_id`) VALUES
 (7, 4),
 (7, 11),
 (8, 5),
-(8, 13);
+(8, 13),
+(11, 8),
+(14, 14),
+(15, 14),
+(16, 14),
+(17, 14),
+(18, 13);
 
 -- --------------------------------------------------------
 
@@ -339,19 +355,19 @@ ALTER TABLE `docentes`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

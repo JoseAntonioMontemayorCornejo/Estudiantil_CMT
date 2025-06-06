@@ -3,7 +3,7 @@ session_start(); // Inicia la sesión para acceder a variables de sesión
 
 // Verifica que el docente haya iniciado sesión
 if (!isset($_SESSION['docente_id'])) {
-    header("Location: login_docente.php"); // Redirige al login si no está autenticado
+    header("Location: ../calificaciones/calificacionesDocente.php"); // Redirige al login si no está autenticado
     exit();
 }
 
@@ -50,7 +50,7 @@ $stmt->bind_param("iiiissssii",
 
 // Ejecuta la consulta y redirige si tiene éxito
 if ($stmt->execute()) {
-    header("Location: calificacionesDocente.php"); // Redirige al listado de calificaciones del docente
+    header("Location: ../calificaciones/calificacionesDocente.php?materia_id=" . $primeraMateria['id']); // Redirige al listado de calificaciones del docente
     exit();
 } else {
     // Muestra el error si falla la ejecución

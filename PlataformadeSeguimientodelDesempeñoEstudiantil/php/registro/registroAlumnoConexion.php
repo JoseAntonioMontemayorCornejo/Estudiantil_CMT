@@ -1,5 +1,5 @@
 <?php
-include("conexion.php"); // Conexión a la base de datos
+include_once(__DIR__ . "/../../includes/conexion.php");
 
 // Recibir datos del formulario
 $nombre = $_POST['nombre'];

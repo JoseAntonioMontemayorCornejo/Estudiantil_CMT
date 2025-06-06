@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['docente_id'])) {
-    header("Location: login_docente.php");
+    header("Location: ../login/login_docente.php");
     exit();
 }
 
@@ -28,7 +28,7 @@ $materiasResult = $stmtMaterias->get_result();
 // Si no hay materia seleccionada, redirige a la primera materia asignada
 if (!$materia_id && $materiasResult->num_rows > 0) {
     $primeraMateria = $materiasResult->fetch_assoc();
-    header("Location: calificacionesDocente.php?materia_id=" . $primeraMateria['id']);
+    header("Location: ../calificaciones/calificacionesDocente.php?materia_id=" . $primeraMateria['id']);
     exit;
 }
 
@@ -53,15 +53,6 @@ $resultado = $stmt->get_result();
 
 $docente_id = $_SESSION['docente_id'];
 
-$materiasQuery = "SELECT m.id, m.nombre 
-                  FROM materias m 
-                  INNER JOIN docente_materia dm ON m.id = dm.materia_id 
-                  WHERE dm.docente_id = ?";
-$stmtMaterias = $conexion->prepare($materiasQuery);
-$stmtMaterias->bind_param("i", $docente_id);
-$stmtMaterias->execute();
-$materiasResult = $stmtMaterias->get_result();
-
 
 
 ?>
@@ -73,7 +64,7 @@ $materiasResult = $stmtMaterias->get_result();
   <title>Gestión de Calificaciones</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
-    body { background-color: #1e1e1e; color: white; }
+    body { background-color: #1e1e1e; color: white;  }
     .table-dark th, .table-dark td { vertical-align: middle; }
     .modal-content { color: black; }
 
@@ -94,8 +85,7 @@ $materiasResult = $stmtMaterias->get_result();
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
+            padding: 7px;
             background-color: var(--background);
             color: var(--foreground);
         }
@@ -211,7 +201,7 @@ $materiasResult = $stmtMaterias->get_result();
         }
         
         .select-input {
-            width: 100%;
+            width: 35%;
             padding: 0.75rem;
             border-radius: 4px;
             background-color: #333;
@@ -233,6 +223,7 @@ $materiasResult = $stmtMaterias->get_result();
             background-color: var(--secondary);
             border-radius: 8px;
             overflow: hidden;
+            
         }
         
         .grades-table th,
@@ -302,6 +293,21 @@ $materiasResult = $stmtMaterias->get_result();
         }
 
 
+        .grade-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.green { background-color: #4CAF50; }
+.yellow { background-color: #FFC107; }
+.red { background-color: #F44336; }
+.gray { background-color: #9E9E9E; }
+
+
+
   </style>
 </head>
 <body>
@@ -309,7 +315,7 @@ $materiasResult = $stmtMaterias->get_result();
     <div class="logo">CMT</div>
     <nav>
       <a href="Index.html#">Inicio</a>
-      <a href="https://www.tecsanpedro.edu.mx/sobre-nosotros/">Nosotros</a>
+      <a href="Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
     </nav>
     <div class="menu-icon">☰</div>
@@ -324,18 +330,7 @@ $materiasResult = $stmtMaterias->get_result();
              </div>
     </div>
 
-    <div class="filters">
-        <div class="select-container">
-            <label for="semester-select" class="select-label">Semestre:</label>
-            <select id="semester-select" class="select-input">
-                <option value="">Seleccionar semestre</option>
-                <option value="1" selected>Primer Semestre</option>
-                <option value="2">Tercer Semestre</option>
-                <option value="3">Quinto Semestre</option>
-                <option value="4">Séptimo Semestre</option>
-            </select>
-        </div>
-        <div class="select-container">
+    
     <label for="materias-select" class="select-label">Materia:</label>
     <select id="materias-select" class="select-input">
         <?php
@@ -352,8 +347,6 @@ if ($materiasResult->num_rows > 0) {
 
     </select>
 </div>
-
-        
         <div class="select-container">
             <label for="status-select" class="select-label">Estado:</label>
             <select id="status-select" class="select-input">
@@ -363,7 +356,6 @@ if ($materiasResult->num_rows > 0) {
             </select>
         </div>
     </div>
-
 
 
   <table class="table table-dark table-bordered">
@@ -379,19 +371,34 @@ if ($materiasResult->num_rows > 0) {
       </tr>
     </thead>
     <tbody id="grades-body">
-    <?php while ($row = $resultado->fetch_assoc()) {
-      echo "<tr>
+    <?php
+function getGradeClass($grade) {
+    if ($grade === null || $grade === '') return '';
+    if ($grade >= 70) return 'grade-high';
+    if ($grade >= 60) return 'grade-mid';
+    return 'grade-low';
+}
+
+while ($row = $resultado->fetch_assoc()) {
+    $unidad1Class = getGradeClass($row['unidad1']);
+    $unidad2Class = getGradeClass($row['unidad2']);
+    $unidad3Class = getGradeClass($row['unidad3']);
+    $promedioClass = getGradeClass($row['promedio']);
+
+    echo "<tr>
         <td>{$row['nombre']}</td>
-        <td>{$row['unidad1']}</td>
-        <td>{$row['unidad2']}</td>
-        <td>{$row['unidad3']}</td>
-        <td>{$row['promedio']}</td>
+        <td class='{$unidad1Class}'>{$row['unidad1']}</td>
+        <td class='{$unidad2Class}'>{$row['unidad2']}</td>
+        <td class='{$unidad3Class}'>{$row['unidad3']}</td>
+        <td class='{$promedioClass}'>{$row['promedio']}</td>
         <td>{$row['comentario']}</td>
         <td>
           <button class='btn btn-sm btn-warning' onclick='abrirModal(" . json_encode($row) . ")'>✏️</button>
         </td>
       </tr>";
-    } ?>
+}
+?>
+
     </tbody>
   </table>
 </div>
@@ -478,7 +485,7 @@ window.studentsData = <?php
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="scripts.js"></script>
+<script src="assets/js/scripts.js"></script>
 <script>
 
 function abrirModal(data) {
@@ -503,13 +510,27 @@ function abrirModal(data) {
 <script>
 document.getElementById('materias-select').addEventListener('change', function () {
     const materia_id = this.value;
-    const url = new URL(window.location.href);
-    url.searchParams.set('materia_id', materia_id);
-    window.location.href = url;
+    if (materia_id) {
+        window.location.href = `calificacionesDocente.php?materia_id=${materia_id}`;
+    }
 });
+
+
+document.getElementById('export-btn').addEventListener('click', function () {
+    html2canvas(document.querySelector("table")).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF('landscape');
+        pdf.addImage(imgData, 'PNG', 10, 10);
+        pdf.save("calificaciones.pdf");
+    });
+});
+
+
 </script>
 
 <script>
+  //exportar pdf
+
 document.addEventListener("DOMContentLoaded", () => {
   const materiaSelect = document.getElementById('materias-select');
   if (materiaSelect) {
@@ -523,6 +544,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+
+//Para el filtrado de aprobados y reprobados
+document.getElementById('status-select').addEventListener('change', function () {
+    const estado = this.value;
+    const rows = document.querySelectorAll('#grades-body tr');
+
+    rows.forEach(row => {
+        const promedioCell = row.cells[4]; // columna del promedio
+        const promedio = parseFloat(promedioCell.textContent) || 0;
+
+        if (estado === 'passed' && promedio >= 70) {
+            row.style.display = '';
+        } else if (estado === 'failed' && promedio < 70) {
+            row.style.display = '';
+        } else if (estado === 'all') {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+
+
+
+function getGradeCircleHTML(grade) {
+  let colorClass = "gray";
+  let display = "N/E";
+
+  if (grade !== null && grade !== undefined && grade !== "") {
+    const num = parseFloat(grade);
+    if (!isNaN(num)) {
+      if (num >= 13) colorClass = "green";
+      else if (num >= 10) colorClass = "yellow";
+      else colorClass = "red";
+      display = num;
+    }
+  }
+
+  return `
+    <span class="grade-indicator">
+      <span class="grade-circle ${colorClass}"></span> ${display}
+    </span>
+  `;
+}
+
+
 </script>
 
 
