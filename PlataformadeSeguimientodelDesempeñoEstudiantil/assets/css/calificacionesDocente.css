@@ -19,13 +19,12 @@
         }
         
         header {
-            background: linear-gradient(to right, var(--primary), #d32f2f);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    background: linear-gradient(to right, #d94228, #3f3c3e);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
         
         .logo {
             font-size: 1.5rem;
@@ -44,11 +43,11 @@
         }
         
         nav a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
         
         nav a:hover {
             color: white;

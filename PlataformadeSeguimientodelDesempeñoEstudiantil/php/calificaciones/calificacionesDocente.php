@@ -306,7 +306,12 @@ $docente_id = $_SESSION['docente_id'];
 .red { background-color: #F44336; }
 .gray { background-color: #9E9E9E; }
 
-
+.select-container{
+display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
   </style>
 </head>
@@ -314,8 +319,8 @@ $docente_id = $_SESSION['docente_id'];
     <header>
     <div class="logo">CMT</div>
     <nav>
-      <a href="Index.html#">Inicio</a>
-      <a href="Nosotros.html">Nosotros</a>
+      <a href="../../inicioNoAdmin.html">Inicio</a>
+      <a href="../../Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
     </nav>
     <div class="menu-icon">☰</div>
@@ -330,7 +335,7 @@ $docente_id = $_SESSION['docente_id'];
              </div>
     </div>
 
-    
+    <div class="select-container">
     <label for="materias-select" class="select-label">Materia:</label>
     <select id="materias-select" class="select-input">
         <?php
@@ -344,10 +349,7 @@ if ($materiasResult->num_rows > 0) {
     echo '<option value="">No tienes materias asignadas</option>';
 }
 ?>
-
     </select>
-</div>
-        <div class="select-container">
             <label for="status-select" class="select-label">Estado:</label>
             <select id="status-select" class="select-input">
                 <option value="all" selected>Todos</option>
@@ -356,7 +358,7 @@ if ($materiasResult->num_rows > 0) {
             </select>
         </div>
     </div>
-
+</div>
 
   <table class="table table-dark table-bordered">
     <thead>
@@ -504,26 +506,43 @@ function abrirModal(data) {
 
 </script>
 <script>
-  // Para usar jsPDF sin conflictos
-  const { jsPDF } = window.jspdf;
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script>
-document.getElementById('materias-select').addEventListener('change', function () {
-    const materia_id = this.value;
-    if (materia_id) {
-        window.location.href = `calificacionesDocente.php?materia_id=${materia_id}`;
-    }
-});
+  document.getElementById('export-btn').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'mm', 'a4'); // Horizontal A4
 
+    doc.setFontSize(18);
+    doc.text('Reporte de Calificaciones', 14, 20);
 
-document.getElementById('export-btn').addEventListener('click', function () {
-    html2canvas(document.querySelector("table")).then(canvas => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF('landscape');
-        pdf.addImage(imgData, 'PNG', 10, 10);
-        pdf.save("calificaciones.pdf");
+    // Obtiene la tabla desde el DOM
+    const table = document.querySelector('.table');
+
+    // Formatea y exporta usando autoTable
+    doc.autoTable({
+      html: table,
+      startY: 30,
+      headStyles: { fillColor: [198, 40, 40], textColor: 255, halign: 'center' },
+      bodyStyles: { halign: 'center', valign: 'middle' },
+      theme: 'grid',
+      styles: {
+        cellPadding: 3,
+        fontSize: 9,
+        overflow: 'linebreak',
+        minCellHeight: 10
+      },
+      didDrawPage: function (data) {
+        doc.setFontSize(10);
+        doc.text(`Docente: <?= htmlspecialchars($nombre) ?>`, 14, doc.internal.pageSize.height - 10);
+        doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 230, doc.internal.pageSize.height - 10);
+      }
     });
-});
+
+    doc.save('calificaciones.pdf');
+  });
+</script>
+
 
 
 </script>

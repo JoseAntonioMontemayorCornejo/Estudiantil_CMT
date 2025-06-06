@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2025 a las 07:38:01
+-- Tiempo de generación: 06-06-2025 a las 16:15:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `calificaciones_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `adminnoadmin`
+--
+
+CREATE TABLE `adminnoadmin` (
+  `id` int(11) NOT NULL,
+  `correo` varchar(100) DEFAULT NULL,
+  `contrasena` varchar(100) DEFAULT NULL,
+  `tipo` enum('admin','alumno') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `adminnoadmin`
+--
+
+INSERT INTO `adminnoadmin` (`id`, `correo`, `contrasena`, `tipo`) VALUES
+(1, 'admin@tecsanpedro.edu.mx', 'admin123', 'admin'),
+(3, 'alumno@tecsanpedro.edu.mx', 'alumno123', 'alumno');
 
 -- --------------------------------------------------------
 
@@ -115,7 +136,42 @@ INSERT INTO `alumnos` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (75, 'Angel Garcia', 'Angel@gmail.com', '1234'),
 (76, 'Luis Diego Barajas', 'Luis@gmail.com', '1234'),
 (77, 'Pablo Perez', 'perez@gmail.com', '1234'),
-(78, 'Cristian Ramirez', 'cristian@tecsanpedro.edu.mx', '1234');
+(78, 'Cristian Ramirez', 'cristian@tecsanpedro.edu.mx', '1234'),
+(79, 'Luis Paredes', 'luis.paredes@tecsanpedro.edu.mx', 'paredes2025'),
+(80, 'Camila Robles', 'camila.robles@tecsanpedro.edu.mx', 'camirob01'),
+(81, 'Diego Silva', 'diego.silva@tecsanpedro.edu.mx', 'diegopass1'),
+(82, 'Andrea Rangel', 'andrea.rangel@tecsanpedro.edu.mx', 'andr1234'),
+(83, 'Hugo Salinas', 'hugo.salinas@tecsanpedro.edu.mx', 'hugo2025'),
+(84, 'Isabella Marin', 'isabella.marin@tecsanpedro.edu.mx', 'isaeasy9'),
+(85, 'Juan Neri', 'juan.neri@tecsanpedro.edu.mx', 'ju4npass'),
+(86, 'Mia Ortega', 'mia.ortega@tecsanpedro.edu.mx', 'miafree7'),
+(87, 'Carlos Vela', 'carlos.vela@tecsanpedro.edu.mx', 'cv2025go'),
+(88, 'Regina Soto', 'regina.soto@tecsanpedro.edu.mx', 'rs123ok'),
+(89, 'Pablo Cano', 'pablo.cano@tecsanpedro.edu.mx', 'canoeasy'),
+(90, 'Diana Ponce', 'diana.ponce@tecsanpedro.edu.mx', 'dp2024ok'),
+(91, 'Samuel Rivas', 'samuel.rivas@tecsanpedro.edu.mx', 'samgo321'),
+(92, 'Paula Teran', 'paula.teran@tecsanpedro.edu.mx', 'ptpass98'),
+(93, 'Leonardo Sosa', 'leonardo.sosa@tecsanpedro.edu.mx', 'leoqwer1'),
+(94, 'Julia Ramos', 'julia.ramos@tecsanpedro.edu.mx', 'julia456'),
+(95, 'Eduardo Leal', 'eduardo.leal@tecsanpedro.edu.mx', 'edleal77'),
+(96, 'Karen Mejia', 'karen.mejia@tecsanpedro.edu.mx', 'karen22'),
+(97, 'Bruno Peña', 'bruno.pena@tecsanpedro.edu.mx', 'bru22pass'),
+(98, 'Alexa Guerra', 'alexa.guerra@tecsanpedro.edu.mx', 'alexaok7'),
+(99, 'Jose Lozano', 'jose.lozano@tecsanpedro.edu.mx', 'jlo123'),
+(100, 'Melissa Beltran', 'melissa.beltran@tecsanpedro.edu.mx', 'melpass5'),
+(101, 'Jorge Valdez', 'jorge.valdez@tecsanpedro.edu.mx', 'jvaldez8'),
+(102, 'Nataly Esquivel', 'nataly.esquivel@tecsanpedro.edu.mx', 'nesq2025'),
+(103, 'Victor Moya', 'victor.moya@tecsanpedro.edu.mx', 'vmoya123'),
+(104, 'Ana Villalobos', 'ana.villalobos@tecsanpedro.edu.mx', 'villana7'),
+(105, 'Luis Cazares', 'luis.cazares@tecsanpedro.edu.mx', 'cazluis'),
+(106, 'Renata Ibarra', 'renata.ibarra@tecsanpedro.edu.mx', 'renib23'),
+(107, 'Alan Gonzalez', 'alan.gonzalez@tecsanpedro.edu.mx', 'alanz123'),
+(108, 'Ximena Saldaña', 'ximena.saldana@tecsanpedro.edu.mx', 'xim23go'),
+(109, 'Esteban Rojas', 'esteban.rojas@tecsanpedro.edu.mx', 'esrojok'),
+(110, 'Camila Lara', 'camila.lara@tecsanpedro.edu.mx', 'clara123'),
+(111, 'Fernando Molina', 'fernando.molina@tecsanpedro.edu.mx', 'femo321'),
+(112, 'Daniela Cordero', 'daniela.cordero@tecsanpedro.edu.mx', 'danico'),
+(113, 'Luis Torres', 'luis.torres@tecsanpedro.edu.mx', 'ltorres8');
 
 -- --------------------------------------------------------
 
@@ -170,7 +226,7 @@ INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`
 (26, 26, 88, 84, 85, 86, 'Buen manejo del contenido', '', '', '', 1),
 (27, 27, 90, 90, 90, 90, 'Muy buen nivel', '', '', '', 5),
 (28, 28, 100, 78, 98, 92, 'Siu', 'Exelente', 'Regualar', 'Mejor denuevo', 2),
-(29, 29, 100, 86, 77, 0, 'Comentario General', 'Comentario1', 'Comentario2', 'Comentario3', NULL),
+(29, 29, 100, 86, 77, 0, 'Comentario General', 'Comentario1', 'Comentario2', 'Comentario3', 13),
 (30, 30, 83, 85, 80, 83, 'Correcta ejecución', 'Entrega puntual', 'Faltó detalle', 'Bien explicado', 3),
 (31, 31, 88, 90, 85, 88, 'Rendimiento notable', 'Comprende conceptos', 'Buena aplicación', 'Ejemplos adecuados', 1),
 (32, 32, 92, 94, 95, 94, 'Muy participativa', 'Resuelve retos', 'Aplica teoría', 'Bien estructurado', 5),
@@ -219,7 +275,42 @@ INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`
 (75, 75, 100, 0, 50, 50, 'Bajo su  promedio rapidamente', 'Exelente entrego todo en forma', 'No asistio ni entrego nada', 'No entraba a la mayoria de clases', 3),
 (76, 76, 76, 34, 90, 67, 'No entro a ninguna clase', 'Le fue mal en el examen', 'No entrego nada y entro a clases', 'Mejoro mucho', 1),
 (77, 77, 100, 70, 40, 70, 'Vale queso', 'Buen estudiante', 'Pasando', 'Se desvió el compañero', 6),
-(78, 78, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 14);
+(78, 78, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 14),
+(79, 79, 80, 85, 90, 85, 'Buen trabajo en clase', NULL, NULL, NULL, 7),
+(80, 80, 75, 78, 74, 76, 'Participación constante', NULL, NULL, NULL, 7),
+(81, 81, 88, 90, 87, 88, 'Excelente desempeño', NULL, NULL, NULL, 7),
+(82, 82, 60, 65, 70, 65, 'Puede mejorar', NULL, NULL, NULL, 7),
+(83, 83, 90, 93, 92, 92, 'Muy aplicado', NULL, NULL, NULL, 8),
+(84, 84, 70, 72, 68, 70, 'Entregas puntuales', NULL, NULL, NULL, 8),
+(85, 85, 65, 60, 63, 63, 'Debe repasar teoría', NULL, NULL, NULL, 8),
+(86, 86, 85, 88, 90, 88, 'Buena comprensión', NULL, NULL, NULL, 8),
+(87, 87, 78, 80, 79, 79, 'Buen desarrollo', NULL, NULL, NULL, 9),
+(88, 88, 92, 95, 91, 93, 'Excelente rendimiento', NULL, NULL, NULL, 9),
+(89, 89, 67, 70, 68, 68, 'Cumple tareas', NULL, NULL, NULL, 9),
+(90, 90, 75, 78, 80, 78, 'Asistencia regular', NULL, NULL, NULL, 9),
+(91, 91, 82, 80, 85, 82, 'Trabaja bien en equipo', NULL, NULL, NULL, 10),
+(92, 92, 70, 74, 72, 72, 'Participa activamente', NULL, NULL, NULL, 10),
+(93, 93, 90, 85, 88, 88, 'Muy responsable', NULL, NULL, NULL, 10),
+(94, 94, 60, 62, 65, 62, 'Debe practicar más', NULL, NULL, NULL, 11),
+(95, 95, 77, 75, 80, 77, 'Atento en clase', NULL, NULL, NULL, 11),
+(96, 96, 85, 88, 90, 88, 'Muestra compromiso', NULL, NULL, NULL, 11),
+(97, 97, 70, 73, 75, 73, 'Entusiasmo constante', NULL, NULL, NULL, 11),
+(98, 98, 95, 97, 94, 95, 'Excelente participación', NULL, NULL, NULL, 12),
+(99, 99, 60, 65, 70, 65, 'Esfuerzo notable', NULL, NULL, NULL, 12),
+(100, 100, 80, 78, 82, 80, 'Rinde bien', NULL, NULL, NULL, 12),
+(101, 101, 67, 70, 68, 68, 'Buena actitud', NULL, NULL, NULL, 12),
+(102, 102, 90, 85, 88, 88, 'Buen desempeño', NULL, NULL, NULL, 13),
+(103, 103, 75, 78, 80, 78, 'Buen desarrollo', NULL, NULL, NULL, 13),
+(104, 104, 85, 88, 85, 86, 'Aplica bien la teoría', NULL, NULL, NULL, 13),
+(105, 105, 90, 92, 93, 92, 'Alumno destacado', NULL, NULL, NULL, 13),
+(106, 106, 60, 58, 65, 61, 'Debe enfocarse más', NULL, NULL, NULL, 14),
+(107, 107, 70, 72, 74, 72, 'Actitud positiva', NULL, NULL, NULL, 14),
+(108, 108, 95, 93, 96, 95, 'Muy buen nivel', NULL, NULL, NULL, 14),
+(109, 109, 78, 80, 79, 79, 'Entregas completas', NULL, NULL, NULL, 14),
+(110, 110, 84, 85, 83, 84, 'Buen manejo del contenido', NULL, NULL, NULL, 14),
+(111, 111, 66, 70, 68, 68, 'Asistencia regular', NULL, NULL, NULL, 7),
+(112, 112, 90, 90, 90, 90, 'Muy consistente', NULL, NULL, NULL, 8),
+(113, 113, 85, 88, 85, 86, 'Entrega destacada', NULL, NULL, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -330,6 +421,13 @@ INSERT INTO `materias` (`id`, `nombre`) VALUES
 --
 
 --
+-- Indices de la tabla `adminnoadmin`
+--
+ALTER TABLE `adminnoadmin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `correo` (`correo`);
+
+--
 -- Indices de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
@@ -352,16 +450,22 @@ ALTER TABLE `docentes`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `adminnoadmin`
+--
+ALTER TABLE `adminnoadmin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT de la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT de la tabla `docentes`

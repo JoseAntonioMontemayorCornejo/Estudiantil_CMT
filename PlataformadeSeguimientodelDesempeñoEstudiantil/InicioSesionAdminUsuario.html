@@ -18,7 +18,7 @@
 
   <main class="login-container">
     <div class="form-container">
-      <h1>Inicia Sesión<br>Leon</h1>
+      <h1>Inicia Sesión<br>Admin</h1>
 
   <form id="loginForm">
   <label for="correo">Correo:</label>
@@ -53,7 +53,7 @@
 
     const formData = new FormData(form);
 
-    fetch('php/login/loginAlumno.php', {
+    fetch('php/login/loginAdminUsuario.php', {
       method: 'POST',
       body: formData
     })
@@ -71,13 +71,4 @@
   });
 </script>
 </body>
-
-
-
-
-
-
-
-
-
 </html>

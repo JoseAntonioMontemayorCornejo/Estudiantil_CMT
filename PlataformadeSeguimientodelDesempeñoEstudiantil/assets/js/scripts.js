@@ -1,12 +1,3 @@
-// ===============================
-// 1. VARIABLES DE FILTRO Y TABLA
-// ===============================
-
-// Referencias a los selectores del DOM para aplicar filtros
-const semesterSelect = document.getElementById('semester-select');
-const courseSelect = document.getElementById('course-select');
-const statusSelect = document.getElementById('status-select');
-const gradesBody = document.getElementById('grades-body'); // Cuerpo de la tabla donde se mostrarán los alumnos
 
 // ===============================
 // 2. RENDERIZAR TABLA

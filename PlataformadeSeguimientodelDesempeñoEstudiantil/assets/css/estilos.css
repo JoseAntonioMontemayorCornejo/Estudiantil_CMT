@@ -564,3 +564,24 @@ body { background-color: #1e1e1e; color: white; }
     color: #333;
     text-align: center;
 }
+
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #3d3a3a;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+}
