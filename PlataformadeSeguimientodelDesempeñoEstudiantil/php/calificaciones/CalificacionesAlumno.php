@@ -37,7 +37,7 @@ $calificaciones = $result->fetch_assoc();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Calificaciones del Alumno</title>
-    <link rel="stylesheet" href="../../assets/css/calificacionesDocente.css"> <!-- Estilos compartidos -->
+    <link rel="stylesheet" href="../../assets/css/estilos.css"> <!-- Estilos compartidos -->
 </head>
 <body>
     <header>

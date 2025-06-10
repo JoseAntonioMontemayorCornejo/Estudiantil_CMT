@@ -52,10 +52,8 @@ $resultado = $stmt->get_result();
 
 
 $docente_id = $_SESSION['docente_id'];
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -64,262 +62,12 @@ $docente_id = $_SESSION['docente_id'];
   <meta charset="UTF-8">
   <title>Gestión de Calificaciones</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    body { background-color: #1e1e1e; color: white;  }
-    .table-dark th, .table-dark td { vertical-align: middle; }
-    .modal-content { color: black; }
-
-
-
-
-/* Estilos generales */
-        :root {
-            --background: #212121;
-            --foreground: #fafafa;
-            --primary: #c62828;
-            --primary-hover: #b71c1c;
-            --secondary: #424242;
-            --green: #2e7d32;
-            --amber: #ff8f00;
-            --red: #c62828;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 7px;
-            background-color: var(--background);
-            color: var(--foreground);
-        }
-        
-        header {
-    background: linear-gradient(to right, #d94228, #3f3c3e);
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 0.1em;
-            color: white;
-            text-decoration: none;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            margin: 0;
-            padding: 0;
-        }
-        
-        nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    letter-spacing: 2px;
-}
-        
-        nav a:hover {
-            color: white;
-        }
-        
-        /* Estilos específicos para la página de calificaciones del docente */
-        .grades-section {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .grades-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .grades-title {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 0;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 4px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.2s;
-            display: inline-block;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-        }
-        
-        .btn-secondary {
-            background-color: #555;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #444;
-        }
-        
-        .filters {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .select-container {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .select-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #ddd;
-        }
-        
-        .select-input {
-            width: 35%;
-            padding: 0.75rem;
-            border-radius: 4px;
-            background-color: #333;
-            border: 1px solid #555;
-            color: white;
-            outline: none;
-            transition: all 0.2s;
-        }
-        
-        .select-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.3);
-        }
-        
-        .grades-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            background-color: var(--secondary);
-            border-radius: 8px;
-            overflow: hidden;
-            
-        }
-        
-        .grades-table th,
-        .grades-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #555;
-        }
-        
-        .grades-table thead th {
-            background-color: #333;
-            font-weight: 600;
-            color: #eee;
-        }
-        
-        .grade-cell {
-            text-align: center;
-            font-weight: bold;
-            border-radius: 4px;
-            padding: 0.25rem 0.5rem;
-            display: inline-block;
-            min-width: 2.5rem;
-        }
-        
-        .grade-high {
-            background-color: var(--green);
-            color: white;
-        }
-        
-        .grade-mid {
-            background-color: var(--amber);
-            color: white;
-        }
-        
-        .grade-low {
-            background-color: var(--red);
-            color: white;
-        }
-        
-        .comment-cell {
-            font-style: italic;
-            color: #bbb;
-            max-width: 200px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .empty-message {
-            text-align: center;
-            padding: 3rem;
-            color: #999;
-            font-style: italic;
-        }
-        
-        .action-cell button {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            margin-right: 0.5rem;
-            font-size: 1rem;
-        }
-        
-        .action-cell button:hover {
-            color: var(--primary-hover);
-        }
-
-
-        .grade-circle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 5px;
-}
-
-.green { background-color: #4CAF50; }
-.yellow { background-color: #FFC107; }
-.red { background-color: #F44336; }
-.gray { background-color: #9E9E9E; }
-
-.select-container{
-display: flex;
-    gap: 20px;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-  </style>
+  <link rel="stylesheet" href="../../assets/css/estilos.css">
 </head>
 <body>
     <header>
     <div class="logo">CMT</div>
-    <nav>
+    <nav class="nav-links">
       <a href="../../index.html">Inicio</a>
       <a href="../../Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
@@ -388,18 +136,35 @@ while ($row = $resultado->fetch_assoc()) {
     $unidad3Class = getGradeClass($row['unidad3']);
     $promedioClass = getGradeClass($row['promedio']);
 
+    $promedio = $row['promedio'];
+    $circleHTML = '';
+
+    // Aquí va tu código del círculo por color
+    if ($promedio !== null) {
+        if ($promedio >= 70) {
+            $circleHTML = '<span class="grade-circle green"></span>';
+        } elseif ($promedio >= 60) {
+            $circleHTML = '<span class="grade-circle yellow"></span>';
+        } else {
+            $circleHTML = '<span class="grade-circle red"></span>';
+        }
+    }
+
     echo "<tr>
-        <td>{$row['nombre']}</td>
-        <td class='{$unidad1Class}'>{$row['unidad1']}</td>
-        <td class='{$unidad2Class}'>{$row['unidad2']}</td>
-        <td class='{$unidad3Class}'>{$row['unidad3']}</td>
-        <td class='{$promedioClass}'>{$row['promedio']}</td>
-        <td>{$row['comentario']}</td>
-        <td>
-          <button class='btn btn-sm btn-warning' onclick='abrirModal(" . json_encode($row) . ")'>✏️</button>
-        </td>
-      </tr>";
+    <td>{$row['nombre']}</td>
+    <td><span class='grade-box {$unidad1Class}'>{$row['unidad1']}</span></td>
+    <td><span class='grade-box {$unidad2Class}'>{$row['unidad2']}</span></td>
+    <td><span class='grade-box {$unidad3Class}'>{$row['unidad3']}</span></td>
+    <td class='{$promedioClass}'>{$circleHTML}{$promedio}</td>
+    <td>{$row['comentario']}</td>
+    <td>
+      <button class='btn btn-sm btn-warning' onclick='abrirModal(" . json_encode($row) . ")'>✏️</button>
+    </td>
+  </tr>";
+
 }
+
+
 ?>
 
     </tbody>
