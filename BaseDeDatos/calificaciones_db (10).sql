@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2025 a las 05:06:07
+-- Tiempo de generación: 10-06-2025 a las 16:22:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -228,7 +228,7 @@ INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`
 (26, 26, 88, 84, 85, 86, 'Buen manejo del contenido', '', '', '', 1),
 (27, 27, 90, 90, 90, 90, 'Muy buen nivel', '', '', '', 5),
 (28, 28, 100, 78, 98, 92, 'Siu', 'Exelente', 'Regualar', 'Mejor denuevo', 2),
-(29, 29, 100, 86, 77, 0, 'Comentario General', 'Comentario1', 'Comentario2', 'Comentario3', 13),
+(29, 29, 100, 86, 77, 88, 'Comentario General', 'Comentario1', 'Comentario2', 'Comentario3', 13),
 (30, 30, 83, 85, 80, 83, 'Correcta ejecución', 'Entrega puntual', 'Faltó detalle', 'Bien explicado', 3),
 (31, 31, 88, 90, 85, 88, 'Rendimiento notable', 'Comprende conceptos', 'Buena aplicación', 'Ejemplos adecuados', 1),
 (32, 32, 92, 94, 95, 94, 'Muy participativa', 'Resuelve retos', 'Aplica teoría', 'Bien estructurado', 5),
@@ -349,7 +349,8 @@ INSERT INTO `docentes` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (14, 'Mario Serrato', 'mario@tecsanpedro.edu.mx', '1234'),
 (18, 'Oscar Ochoa', 'oscar@tecsanpedro.edu.mx', '1234'),
 (19, 'Americo Ovalle', 'americo@tecsanpedro.edu.mx', '1234'),
-(20, 'Vicente', 'vicente@tecsanpedo.edu.mx', '1234');
+(20, 'Vicente', 'vicente@tecsanpedo.edu.mx', '1234'),
+(22, 'Marmolejo', 'marmolejo@tecsanpedro.edu.mx', '1234');
 
 -- --------------------------------------------------------
 
@@ -391,7 +392,10 @@ INSERT INTO `docente_materia` (`docente_id`, `materia_id`) VALUES
 (17, 14),
 (18, 13),
 (19, 21),
-(20, 20);
+(20, 20),
+(22, 13),
+(22, 14),
+(22, 11);
 
 -- --------------------------------------------------------
 
@@ -486,7 +490,7 @@ ALTER TABLE `calificaciones`
 -- AUTO_INCREMENT de la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -547,6 +547,7 @@ body { background-color: #1e1e1e; color: white;  }
         
         
         .select-label {
+            padding: 12px;
             display: block;
             margin-bottom: 0.5rem;
             color: #ddd;

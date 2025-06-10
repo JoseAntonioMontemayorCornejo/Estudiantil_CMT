@@ -38,9 +38,8 @@
                 <label for="contrasena">Contraseña:</label>
                 <input type="password" id="contrasena" name="contrasena" required>
 
-                                <label for="materia_id">Materia que va a impartir:</label>
-<select id="materia_id" name="materia_id" required>
-    <option value="">Seleccione una materia...</option>
+<label for="materia_id">Materias que va a impartir:</label>
+<select id="materia_id" name="materia_id[]" multiple required>
     <option value="1">Fundamentos de Programación</option>
     <option value="2">Métodos Numéricos</option>
     <option value="3">Programación Orientada a Objetos</option>
@@ -61,9 +60,10 @@
     <option value="18">Arquitectura de Computadoras</option>
     <option value="19">Ingeniería de Software</option>
     <option value="20">Desarrollo Web</option>
-    <option value="21">circuito Electricos</option>
-    
+    <option value="21">Circuito Eléctricos</option>
 </select>
+<p style="font-size: 0.9em; color: #555;">Usa Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples materias.</p>
+
 
                 <button type="submit">Registrar</button>
             </form>
