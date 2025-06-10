@@ -22,7 +22,7 @@ if ($result->num_rows === 1) {
 
         echo json_encode([
             'success' => true,
-            'redirect' => $usuario['tipo'] === 'admin' ? 'http://localhost/PlataformadeSeguimientodelDesempe%C3%B1oEstudiantil/index.html' : 'http://localhost/PlataformadeSeguimientodelDesempe%C3%B1oEstudiantil/inicioNoAdmin.html'
+            'redirect' => $usuario['tipo'] === 'admin' ? 'http://localhost/PlataformadeSeguimientodelDesempe%C3%B1oEstudiantil/inicioAdmin.html' : 'http://localhost/PlataformadeSeguimientodelDesempe%C3%B1oEstudiantil/index.html'
         ]);
     } else {
         echo json_encode([

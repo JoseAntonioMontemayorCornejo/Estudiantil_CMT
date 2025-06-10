@@ -34,6 +34,7 @@ $calificaciones = $result->fetch_assoc();
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Calificaciones del Alumno</title>
     <link rel="stylesheet" href="../../assets/css/calificacionesDocente.css"> <!-- Estilos compartidos -->
@@ -42,7 +43,7 @@ $calificaciones = $result->fetch_assoc();
     <header>
         <div class="logo">CMT</div>
         <nav>
-            <a href="../../inicioNoAdmin.html">Inicio</a>
+            <a href="../../index.html">Inicio</a>
       <a href="../../Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
         </nav>

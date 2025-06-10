@@ -60,6 +60,7 @@ $docente_id = $_SESSION['docente_id'];
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Gestión de Calificaciones</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -319,7 +320,7 @@ display: flex;
     <header>
     <div class="logo">CMT</div>
     <nav>
-      <a href="../../inicioNoAdmin.html">Inicio</a>
+      <a href="../../index.html">Inicio</a>
       <a href="../../Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
     </nav>

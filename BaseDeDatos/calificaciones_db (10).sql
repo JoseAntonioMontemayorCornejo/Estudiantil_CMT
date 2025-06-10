@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2025 a las 16:15:03
+-- Tiempo de generación: 10-06-2025 a las 05:06:07
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -171,7 +171,9 @@ INSERT INTO `alumnos` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (110, 'Camila Lara', 'camila.lara@tecsanpedro.edu.mx', 'clara123'),
 (111, 'Fernando Molina', 'fernando.molina@tecsanpedro.edu.mx', 'femo321'),
 (112, 'Daniela Cordero', 'daniela.cordero@tecsanpedro.edu.mx', 'danico'),
-(113, 'Luis Torres', 'luis.torres@tecsanpedro.edu.mx', 'ltorres8');
+(113, 'Luis Torres', 'luis.torres@tecsanpedro.edu.mx', 'ltorres8'),
+(114, 'Jeferson Gutiarritoz', 'gutiarritoz@tecsanpedro.edu.mx', '1234'),
+(115, 'Rodrigo z', 'Rodri@tecsanpedo.edu.mx', '1234');
 
 -- --------------------------------------------------------
 
@@ -200,14 +202,14 @@ CREATE TABLE `calificaciones` (
 INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`, `promedio`, `comentario`, `comentario_u1`, `comentario_u2`, `comentario_u3`, `materia_id`) VALUES
 (1, 101, 59, 61, 68, 63, 'Auto-generado', 'Comentario U1', 'Comentario U2', 'Comentario U3', 1),
 (2, 2, 60, 90, 100, 83, 'Mejoro en las ultimas unidades', 'Exelente2', 'Exelente3', 'Exelente4', 4),
-(3, 3, 100, 100, 100, 100, 'Puede mejorar en unidad 1', 'Exelente3', 'Exelente4', 'Exelente5', 3),
+(3, 3, 70, 98, 100, 89, 'Puede mejorar en unidad 1', 'Puedes mejorar', 'Muy buen promedio', 'Exelente', 3),
 (4, 104, 90, 90, 88, 89, 'Auto-generado', 'Comentario U1', 'Comentario U2', 'Comentario U3', 1),
 (5, 105, 92, 62, 95, 83, 'Auto-generado', 'Comentario U1', 'Comentario U2', 'Comentario U3', 2),
 (6, 6, 90, 90, 90, 90, 'Regulare', '', '', '', 1),
 (7, 7, 100, 100, 95, 98, 'Excelente trabajos', '', '', '', 2),
 (8, 8, 50, 55, 60, 55, 'Debe esforzarse más', '', '', '', 1),
 (9, 9, 90, 85, 90, 88, 'Buen rendimiento general', '', '', '', 2),
-(10, 10, 100, 100, 100, 100, 'Exelente', 'Buen alumno', 'Entrego todo correctamente', 'Le fue exelente', 3),
+(10, 10, 69, 100, 100, 90, 'Exelentea', 'Buen alumnoa', 'Entrego todo correctamente', 'Le fue exelente', 3),
 (11, 11, 96, 99, 99, 98, 'siuuuu', 'buen alumno', 'Exelente', 'Exelentee', 5),
 (12, 12, 75, 78, 72, 75, 'Constante en sus entregas', '', '', '', 2),
 (13, 13, 40, 45, 50, 45, 'Debe mejorar bastante', '', '', '', 3),
@@ -310,7 +312,9 @@ INSERT INTO `calificaciones` (`id`, `alumno_id`, `unidad1`, `unidad2`, `unidad3`
 (110, 110, 84, 85, 83, 84, 'Buen manejo del contenido', NULL, NULL, NULL, 14),
 (111, 111, 66, 70, 68, 68, 'Asistencia regular', NULL, NULL, NULL, 7),
 (112, 112, 90, 90, 90, 90, 'Muy consistente', NULL, NULL, NULL, 8),
-(113, 113, 85, 88, 85, 86, 'Entrega destacada', NULL, NULL, NULL, 9);
+(113, 113, 85, 88, 85, 86, 'Entrega destacada', NULL, NULL, NULL, 9),
+(114, 114, 70, 80, 90, 80, 'El gruñon de josh', 'En el limite', 'Mejoro', 'Muy buen trabajo', 7),
+(115, 115, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 7);
 
 -- --------------------------------------------------------
 
@@ -343,7 +347,9 @@ INSERT INTO `docentes` (`id`, `nombre`, `correo`, `contrasena`) VALUES
 (11, 'Jesus Morales', 'morales@tecsanpedro.edu.mx', '1234'),
 (12, 'Ulises Trujillo', 'trujillo@tecsanpedro.edu.mx', '1234'),
 (14, 'Mario Serrato', 'mario@tecsanpedro.edu.mx', '1234'),
-(18, 'Oscar Ochoa', 'oscar@tecsanpedro.edu.mx', '1234');
+(18, 'Oscar Ochoa', 'oscar@tecsanpedro.edu.mx', '1234'),
+(19, 'Americo Ovalle', 'americo@tecsanpedro.edu.mx', '1234'),
+(20, 'Vicente', 'vicente@tecsanpedo.edu.mx', '1234');
 
 -- --------------------------------------------------------
 
@@ -383,7 +389,9 @@ INSERT INTO `docente_materia` (`docente_id`, `materia_id`) VALUES
 (15, 14),
 (16, 14),
 (17, 14),
-(18, 13);
+(18, 13),
+(19, 21),
+(20, 20);
 
 -- --------------------------------------------------------
 
@@ -414,7 +422,14 @@ INSERT INTO `materias` (`id`, `nombre`) VALUES
 (11, 'Programación de Base de Datos'),
 (12, 'Lenguajes de Interfaz'),
 (13, 'Cálculo Integral'),
-(14, 'Álgebra Lineal');
+(14, 'Álgebra Lineal'),
+(15, 'Estructuras de Datos'),
+(16, 'Análisis y Diseño de Algoritmos'),
+(17, 'Sistemas Operativos'),
+(18, 'Arquitectura de Computadoras'),
+(19, 'Ingeniería de Software'),
+(20, 'Desarrollo Web'),
+(21, 'circuito Electricos');
 
 --
 -- Índices para tablas volcadas
@@ -459,19 +474,19 @@ ALTER TABLE `adminnoadmin`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT de la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT de la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
