@@ -1,0 +1,107 @@
+<!-- registroAlumno.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Registro de Alumno</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">CMT</div>
+        <nav>
+      <a href="index.html">Inicio</a>
+      <a href="Nosotros.html">Nosotros</a>
+      <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
+        </nav>
+        <div class="menu-icon">&#9776;</div>
+    </header>
+
+    <div class="login-container">
+        <div class="form-container">
+            <h1>Registro de Alumno</h1>
+            <form id="formRegistroAlumno">
+                <div id="mensaje" style="margin-top: 10px; font-weight: bold;"></div>
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" required>
+
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
+
+                <label for="materia_id">Materia:</label>
+                <select id="materia_id" name="materia_id" required>
+                    <option value="">Seleccione una materia...</option>
+                    <option value="1">Fundamentos de Programación</option>
+                    <option value="2">Métodos Numéricos</option>
+                    <option value="3">Programación Orientada a Objetos</option>
+                    <option value="4">Fundamentos de Software</option>
+                    <option value="5">Graficación</option>
+                    <option value="6">Lenguajes Autómatas</option>
+                    <option value="7">Lenguajes Autómatas 2</option>
+                    <option value="8">Contabilidad</option>
+                    <option value="9">Simulación</option>
+                    <option value="10">Redes de Computadora</option>
+                    <option value="11">Programación de Base de Datos</option>
+                    <option value="12">Lenguajes de Interfaz</option>
+                    <option value="13">Cálculo Integral</option>
+                    <option value="14">Álgebra Lineal</option>
+    <option value="15">Estructuras de Datos</option>
+    <option value="16">Análisis y Diseño de Algoritmos</option>
+    <option value="17">Sistemas Operativos</option>
+    <option value="18">Arquitectura de Computadoras</option>
+    <option value="19">Ingeniería de Software</option>
+    <option value="20">Desarrollo Web</option>
+    <option value="21">circuito Electricos</option>
+                </select>
+
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+
+        <div class="lion-image">
+            <img src="assets/img/LogoTec.png" alt="León decorativo">
+        </div>
+    </div>
+
+    <!-- Script JS -->
+    <script>
+    document.getElementById('formRegistroAlumno').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+        const formData = new FormData(form);
+
+        fetch('php/registro/registroAlumnoConexion.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.text())
+        .then(data => {
+            const mensaje = document.getElementById('mensaje');
+            mensaje.textContent = data;
+
+            if (data.toLowerCase().includes("registrado")) {
+                mensaje.style.color = "green";
+                form.reset();
+            } else {
+                mensaje.style.color = "red";
+            }
+        })
+        .catch(error => {
+            const mensaje = document.getElementById('mensaje');
+            mensaje.textContent = "❌ Error al registrar alumno.";
+            mensaje.style.color = "red";
+            console.error('Error:', error);
+        });
+    });
+    </script>
+
+</body>
+</html>
