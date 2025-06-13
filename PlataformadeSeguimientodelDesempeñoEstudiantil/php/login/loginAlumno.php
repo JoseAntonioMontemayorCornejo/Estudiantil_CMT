@@ -21,7 +21,7 @@ if ($result->num_rows === 1) {
 
         echo json_encode([
     'success' => true,
-    'redirect' => 'php/calificaciones/CalificacionesAlumno.php'
+    'redirect' => '../php/calificaciones/CalificacionesAlumno.php'
 ]);
 
 

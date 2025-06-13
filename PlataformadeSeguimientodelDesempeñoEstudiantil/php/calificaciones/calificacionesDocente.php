@@ -63,12 +63,14 @@ $docente_id = $_SESSION['docente_id'];
   <title>Gestión de Calificaciones</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../assets/css/estilos.css">
+  <!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
     <div class="logo">CMT</div>
     <nav class="nav-links">
-      <a href="../../index.html">Inicio</a>
+      <a href="../../index.html">Cerrar Sesion</a>
       <a href="../../Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
     </nav>
@@ -80,9 +82,13 @@ $docente_id = $_SESSION['docente_id'];
   <div class="action-buttons">
             <button class="btn btn-secondary" id="export-btn">
                 <i class="fas fa-file-export"></i> Exportar PDF
+
             </button>
              </div>
     </div>
+
+    
+    
 
     <div class="select-container">
     <label for="materias-select" class="select-label">Materia:</label>
@@ -270,6 +276,13 @@ function abrirModal(data) {
   modal.show();
 }
 
+
+
+
+
+
+
+
 </script>
 <script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -331,7 +344,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
 //Para el filtrado de aprobados y reprobados
 document.getElementById('status-select').addEventListener('change', function () {
     const estado = this.value;
@@ -376,6 +388,152 @@ function getGradeCircleHTML(grade) {
     </span>
   `;
 }
+
+
+</script>
+
+
+<script>
+  document.getElementById("export-pie-pdf").addEventListener("click", function () {
+    const { jsPDF } = window.jspdf;
+
+    // Crear canvas en memoria
+    const canvas = document.createElement("canvas");
+    canvas.width = 400;
+    canvas.height = 400;
+
+    // Crear contexto y gráfico
+    const ctx = canvas.getContext("2d");
+
+    // Contar aprobados y reprobados
+    const data = window.studentsData || [];
+    const aprobados = data.filter(s => s.average >= 70).length;
+    const reprobados = data.filter(s => s.average < 70).length;
+
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Aprobados', 'Reprobados'],
+        datasets: [{
+          label: 'Distribución',
+          data: [aprobados, reprobados],
+          backgroundColor: ['#4CAF50', '#F44336'],
+        }]
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+
+    // Esperar un poco para renderizar el gráfico
+    setTimeout(() => {
+      const imageData = canvas.toDataURL("image/png");
+
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+      });
+
+      doc.setFontSize(18);
+      doc.text("Gráfico de Aprobados vs Reprobados", 20, 20);
+      doc.addImage(imageData, "PNG", 30, 30, 150, 150); // Ajusta posición y tamaño
+
+      doc.save("grafico_aprobados_reprobados.pdf");
+    }, 500); // Tiempo para asegurar renderización
+  });
+</script>
+
+
+
+
+<div class="container my-4 text-center">
+  <canvas id="graficoPastel" width="400" height="400"></canvas>
+  <br>
+  <button class="btn btn-info mt-3" id="export-pie-pdf">
+    📊 Exportar Gráfico de Pastel
+  </button>
+</div>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const estudiantes = window.studentsData || [];
+
+    const aprobados = estudiantes.filter(s => s.average >= 70).length;
+    const reprobados = estudiantes.filter(s => s.average < 70).length;
+
+    const ctx = document.getElementById('graficoPastel').getContext('2d');
+
+    window.miGraficoPastel = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Aprobados', 'Reprobados'],
+        datasets: [{
+          data: [aprobados, reprobados],
+          backgroundColor: ['#28a745', '#dc3545']
+        }]
+      },
+       options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 20  // ⬅️ AUMENTA el tamaño aquí (por defecto suele ser 12)
+          }
+        }
+      },
+          title: {
+            display: true,
+            text: 'Distribución de Calificaciones'
+          }
+        }
+      }
+    });
+  });
+</script>
+<script>
+ document.getElementById('export-pie-pdf').addEventListener('click', function () {
+  const { jsPDF } = window.jspdf;
+
+  // Obtener datos directamente desde el gráfico
+  const grafico = Chart.getChart('graficoPastel'); // ID del canvas
+  const datos = grafico.data.datasets[0].data;
+  const aprobados = datos[0];
+  const reprobados = datos[1];
+
+  html2canvas(document.getElementById('graficoPastel')).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    pdf.setFontSize(18);
+    pdf.text('Gráfico de Calificaciones', 15, 15);
+
+    // Imagen del gráfico
+    pdf.addImage(imgData, 'PNG', 15, 25, 260, 120);
+
+    // Agrega los números reales
+    pdf.setFontSize(14);
+    pdf.text(`Aprobados: ${aprobados}`, 15, 155);
+    pdf.text(`Reprobados: ${reprobados}`, 15, 165);
+
+    pdf.save('grafico_calificaciones.pdf');
+  });
+});
+
 
 
 </script>

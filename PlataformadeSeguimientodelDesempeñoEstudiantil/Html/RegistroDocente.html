@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Registro de Docente</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/estilos.css"> <!-- Asegúrate de tener este archivo CSS -->
+     <link rel="stylesheet" href="../assets/css/estilos.css"> <!-- Asegúrate de tener este archivo CSS -->
 </head>
 <body>
 
@@ -14,7 +14,7 @@
     <header>
         <div class="logo">CMT</div>
         <nav>
-      <a href="index.html">Inicio</a>
+      <a href="../index.html">Inicio</a>
       <a href="Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
         </nav>
@@ -69,7 +69,7 @@
             </form>
         </div>
         <div class="lion-image">
-            <img src="assets/img/LeonAdministrativo.png" alt="León decorativo">
+            <img src="../assets/img/LeonAdministrativo.png" alt="León decorativo">
         </div>
     </div>
 
@@ -80,7 +80,7 @@ document.getElementById('formRegistroDocente').addEventListener('submit', functi
 
     const formData = new FormData(this);
 
-    fetch('php/registro/RegistroDocente.php', {
+    fetch('../php/registro/RegistroDocente.php', {
         method: 'POST',
         body: formData
     })

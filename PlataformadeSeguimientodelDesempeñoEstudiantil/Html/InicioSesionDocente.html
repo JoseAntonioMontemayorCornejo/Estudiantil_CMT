@@ -4,14 +4,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Iniciar Sesión</title>
-  <link rel="stylesheet" href="assets/css/estilos.css">
+   <link rel="stylesheet" href="../assets/css/estilos.css"> 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <div class="logo">CMT</div>
     <nav>
-      <a href="index.html">Inicio</a>
+      <a href="../index.html">Inicio</a>
       <a href="Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
     </nav>
@@ -19,9 +19,8 @@
 
   <main class="login-container">
     <div class="form-container">
-      <h1>Inicia Sesión<br>Leon</h1>
-
-  <form id="loginForm">
+      <h1>Bienvenido<br>Docente</h1>
+      <form id="loginForm">
   <label for="correo">Correo:</label>
   <input type="email" id="correo" name="correo" required>
 
@@ -33,15 +32,13 @@
   <button type="submit">Iniciar Sesión</button>
 </form>
 
-
     </div>
 
-    
     <div class="lion-image">
-      <img src="assets/img/LeonMascota.png">
+      <img src="../assets/img/LeonDocente.png">
     </div>
   </main>
-
+  
 
 
   <script>
@@ -49,11 +46,11 @@
   const errorMessage = document.getElementById('error-message');
 
   form.addEventListener('submit', function(e) {
-    e.preventDefault(); // Evita que se recargue la página
+    e.preventDefault();
 
     const formData = new FormData(form);
 
-    fetch('php/login/loginAlumno.php', {
+    fetch('../php/login/loginDocente.php', {
       method: 'POST',
       body: formData
     })
@@ -65,17 +62,12 @@
         errorMessage.textContent = data.message;
       }
     })
-    .catch(err => {
-      errorMessage.textContent = "Error al intentar iniciar sesión.";
+    .catch(() => {
+      errorMessage.textContent = 'Error al intentar iniciar sesión.';
     });
   });
 </script>
 </body>
-
-
-
-
-
 
 
 

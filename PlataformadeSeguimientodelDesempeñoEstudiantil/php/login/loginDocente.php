@@ -23,7 +23,7 @@ if ($resultado->num_rows === 1) {
 
         echo json_encode([
             'success' => true,
-            'redirect' => 'php/calificaciones/calificacionesDocente.php'
+            'redirect' => '../php/calificaciones/calificacionesDocente.php'
         ]);
     } else {
         echo json_encode([

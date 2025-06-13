@@ -4,14 +4,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Iniciar Sesión</title>
-  <link rel="stylesheet" href="assets/css/estilos.css">
+   <link rel="stylesheet" href="../assets/css/estilos.css"> 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <div class="logo">CMT</div>
     <nav>
-      <a href="index.html">Inicio</a>
+      <a href="../index.html">Inicio</a>
       <a href="Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
     </nav>
@@ -19,7 +19,7 @@
 
   <main class="login-container">
     <div class="form-container">
-      <h1>Inicia Sesión<br>Admin</h1>
+      <h1>Inicia Sesión<br>Leon</h1>
 
   <form id="loginForm">
   <label for="correo">Correo:</label>
@@ -38,7 +38,7 @@
 
     
     <div class="lion-image">
-      <img src="assets/img/LeonAdmin.png">
+      <img src="../assets/img/LeonMascota.png">
     </div>
   </main>
 
@@ -53,7 +53,7 @@
 
     const formData = new FormData(form);
 
-    fetch('php/login/loginAdminUsuario.php', {
+    fetch('../php/login/loginAlumno.php', {
       method: 'POST',
       body: formData
     })
@@ -71,4 +71,13 @@
   });
 </script>
 </body>
+
+
+
+
+
+
+
+
+
 </html>

@@ -43,7 +43,7 @@ $calificaciones = $result->fetch_assoc();
     <header>
         <div class="logo">CMT</div>
         <nav>
-            <a href="../../index.html">Inicio</a>
+            <a href="../../index.html">Cerrar Sesion</a>
       <a href="../../Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
         </nav>

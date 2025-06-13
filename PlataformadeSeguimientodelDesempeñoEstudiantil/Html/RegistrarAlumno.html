@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <title>Registro de Alumno</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/estilos.css">
+     <link rel="stylesheet" href="../assets/css/estilos.css"> 
 </head>
 <body>
 
     <header>
         <div class="logo">CMT</div>
         <nav>
-      <a href="index.html">Inicio</a>
+      <a href="../index.html">Inicio</a>
       <a href="Nosotros.html">Nosotros</a>
       <a href="https://moodle.tecsanpedro.edu.mx/login/index.php">Moodle</a>
         </nav>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="lion-image">
-            <img src="assets/img/LogoTec.png" alt="León decorativo">
+            <img src="../assets/img/LogoTec.png" alt="León decorativo">
         </div>
     </div>
 
@@ -78,7 +78,7 @@
         const form = this;
         const formData = new FormData(form);
 
-        fetch('php/registro/registroAlumnoConexion.php', {
+        fetch('../php/registro/registroAlumnoConexion.php', {
             method: 'POST',
             body: formData
         })
