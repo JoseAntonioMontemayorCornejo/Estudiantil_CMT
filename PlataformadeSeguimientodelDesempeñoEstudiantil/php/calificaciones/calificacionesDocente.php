@@ -191,15 +191,15 @@ while ($row = $resultado->fetch_assoc()) {
       <div class="modal-body">
         <div class="mb-2">
           <label>Unidad 1</label>
-          <input type="number" name="unidad1" id="inputUnidad1" class="form-control">
+          <input type="number" name="unidad1" id="inputUnidad1" class="form-control" min="0" max="100">
         </div>
         <div class="mb-2">
           <label>Unidad 2</label>
-          <input type="number" name="unidad2" id="inputUnidad2" class="form-control">
+          <input type="number" name="unidad2" id="inputUnidad2" class="form-control" min="0" max="100">
         </div>
         <div class="mb-2">
           <label>Unidad 3</label>
-          <input type="number" name="unidad3" id="inputUnidad3" class="form-control">
+          <input type="number" name="unidad3" id="inputUnidad3" class="form-control" min="0" max="100">
         </div>
         <div class="mb-2">
           <label>Comentario</label>
@@ -453,12 +453,13 @@ function getGradeCircleHTML(grade) {
 
 
 <div class="container my-4 text-center">
-  <canvas id="graficoPastel" width="400" height="400"></canvas>
+  <canvas id="graficoBarras" width="400" height="200"></canvas>
   <br>
-  <button class="btn btn-info mt-3" id="export-pie-pdf">
-    📊 Exportar Gráfico de Pastel
+  <button class="btn btn-info mt-3" id="export-bar-pdf">
+    📊 Exportar Gráfico de Barras
   </button>
 </div>
+
 
 
 
@@ -469,74 +470,112 @@ function getGradeCircleHTML(grade) {
     const aprobados = estudiantes.filter(s => s.average >= 70).length;
     const reprobados = estudiantes.filter(s => s.average < 70).length;
 
-    const ctx = document.getElementById('graficoPastel').getContext('2d');
+    const ctx = document.getElementById('graficoBarras').getContext('2d');
 
-    window.miGraficoPastel = new Chart(ctx, {
-      type: 'pie',
+    window.miGraficoBarras = new Chart(ctx, {
+      type: 'bar',
       data: {
         labels: ['Aprobados', 'Reprobados'],
         datasets: [{
+          label: 'Cantidad de estudiantes',
           data: [aprobados, reprobados],
           backgroundColor: ['#28a745', '#dc3545']
         }]
       },
-       options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          font: {
-            size: 20  // ⬅️ AUMENTA el tamaño aquí (por defecto suele ser 12)
-          }
-        }
-      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          },
           title: {
             display: true,
-            text: 'Distribución de Calificaciones'
+            text: 'Distribución de Calificaciones',
+            font: {
+              size: 35
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
           }
         }
       }
     });
   });
 </script>
+
 <script>
- document.getElementById('export-pie-pdf').addEventListener('click', function () {
-  const { jsPDF } = window.jspdf;
+  document.getElementById('export-bar-pdf').addEventListener('click', function () {
+    const { jsPDF } = window.jspdf;
 
-  // Obtener datos directamente desde el gráfico
-  const grafico = Chart.getChart('graficoPastel'); // ID del canvas
-  const datos = grafico.data.datasets[0].data;
-  const aprobados = datos[0];
-  const reprobados = datos[1];
+    html2canvas(document.getElementById('graficoBarras')).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
 
-  html2canvas(document.getElementById('graficoPastel')).then(canvas => {
-    const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4'
+      });
 
-    const pdf = new jsPDF({
-      orientation: 'landscape',
-      unit: 'mm',
-      format: 'a4'
+      // Título principal centrado
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(20);
+      pdf.setTextColor(33, 37, 41); // Gris oscuro
+      pdf.text('Reporte de Distribución de Calificaciones', pdf.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+
+      // Subtítulo
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Docente: <?= htmlspecialchars($nombre) ?>`, 15, 30);
+      const fecha = new Date().toLocaleDateString();
+      pdf.text(`Fecha: ${fecha}`, pdf.internal.pageSize.getWidth() - 15, 30, { align: 'right' });
+
+      // Insertar el gráfico centrado
+      const imgWidth = 180;
+      const imgHeight = 100;
+      const x = (pdf.internal.pageSize.getWidth() - imgWidth) / 2;
+      const y = 40;
+
+      pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+
+      // Pie de página con datos
+      const grafico = Chart.getChart('graficoBarras');
+      const datos = grafico.data.datasets[0].data;
+
+     // Pie de página con datos
+const total = datos[0] + datos[1]; // Aprobados + Reprobados
+
+pdf.setFontSize(16);
+
+// Aprobados
+pdf.setTextColor(40, 167, 69); // Verde
+pdf.text(`Aprobados: ${datos[0]}`, x + 10, y + imgHeight + 15);
+
+// Reprobados
+pdf.setTextColor(220, 53, 69); // Rojo
+pdf.text(`Reprobados: ${datos[1]}`, x + 80, y + imgHeight + 15);
+
+// Total
+pdf.setTextColor(33, 37, 41); // Gris oscuro para neutro
+pdf.text(`Total de alumnos: ${total}`, x + 160, y + imgHeight + 15);
+
+
+      // Footer institucional
+      pdf.setFontSize(10);
+      pdf.setTextColor(100);
+      pdf.text("Generado automáticamente por el sistema de calificaciones", pdf.internal.pageSize.getWidth() / 2, 200, { align: 'center' });
+
+      pdf.save('reporte_calificaciones.pdf');
     });
-
-    pdf.setFontSize(18);
-    pdf.text('Gráfico de Calificaciones', 15, 15);
-
-    // Imagen del gráfico
-    pdf.addImage(imgData, 'PNG', 15, 25, 260, 120);
-
-    // Agrega los números reales
-    pdf.setFontSize(14);
-    pdf.text(`Aprobados: ${aprobados}`, 15, 155);
-    pdf.text(`Reprobados: ${reprobados}`, 15, 165);
-
-    pdf.save('grafico_calificaciones.pdf');
   });
-});
-
-
-
 </script>
+
+
 
 
 </body>
