@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/../../includes/conexion.php");
+include_once(__DIR__ . "/../../includes/Conexion.php");
 header('Content-Type: application/json');
 
 $correo = $_POST['correo'];

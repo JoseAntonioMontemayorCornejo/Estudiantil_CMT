@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/../../includes/conexion.php");
+include_once(__DIR__ . "/../../includes/Conexion.php");
 
 session_start();
 
@@ -22,7 +22,7 @@ if ($result->num_rows === 1) {
 
         echo json_encode([
             'success' => true,
-            'redirect' => $usuario['tipo'] === 'admin' ? 'http://localhost/PlataformadeSeguimientodelDesempe%C3%B1oEstudiantil/inicioAdmin.html' : 'http://localhost/PlataformadeSeguimientodelDesempe%C3%B1oEstudiantil/index.html'
+            'redirect' => $usuario['tipo'] === 'admin' ? '../Html/inicioAdmin.html' : 'http://localhost/PlataformadeSeguimientodelDesempe%C3%B1oEstudiantil/index.html'
         ]);
     } else {
         echo json_encode([

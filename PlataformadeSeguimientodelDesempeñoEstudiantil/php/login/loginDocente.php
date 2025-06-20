@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/../../includes/conexion.php");
+include_once(__DIR__ . "/../../includes/Conexion.php");
 session_start();
 
 header('Content-Type: application/json');

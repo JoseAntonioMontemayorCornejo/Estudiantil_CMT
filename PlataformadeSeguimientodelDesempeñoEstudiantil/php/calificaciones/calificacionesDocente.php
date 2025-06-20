@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['docente_id'])) {
-    header("Location: ../login/login_docente.php");
+    header("Location: ../login/loginDocente.php");
     exit();
 }
 
@@ -82,9 +82,15 @@ $docente_id = $_SESSION['docente_id'];
   <div class="action-buttons">
             <button class="btn btn-secondary" id="export-btn">
                 <i class="fas fa-file-export"></i> Exportar PDF
-
             </button>
+            <form method="POST" action="../EnviarCorreos/enviar_alertas.php" target="_blank">
+  <button class="btn btn-danger" type="submit">
+    📧 Enviar Alertas a Reprobados
+  </button>
+</form>
+
              </div>
+             
     </div>
 
     
@@ -575,6 +581,24 @@ pdf.text(`Total de alumnos: ${total}`, x + 160, y + imgHeight + 15);
   });
 </script>
 
+
+<script>
+//Enviar alertas a alumnos reprobados desde el correo
+document.getElementById("btn-enviar-alertas").addEventListener("click", function () {
+  if (confirm("¿Estás seguro de que quieres enviar alertas por correo a los alumnos reprobados?")) {
+    fetch('../EnviarCorreos/enviar_alertas.php')
+      .then(response => response.text())
+      .then(data => {
+        alert("Se han enviado las alertas correctamente.");
+        console.log(data); // útil para depurar
+      })
+      .catch(error => {
+        console.error("Error al enviar alertas:", error);
+        alert("Ocurrió un error al enviar los correos.");
+      });
+  }
+});
+</script>
 
 
 

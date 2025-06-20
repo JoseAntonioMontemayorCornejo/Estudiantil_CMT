@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/../../includes/conexion.php");
+include_once(__DIR__ . "/../../includes/Conexion.php");
 
 // Recibir datos del formulario
 $nombre = $_POST['nombre'];
